@@ -1,0 +1,117 @@
+import { Button } from "@/components/ui/button";
+import { ArrowDown, Download, Github, Linkedin, Mail } from "lucide-react";
+import heroBackground from "@/assets/hero-bg.jpg";
+
+interface HeroProps {
+  role: "data-scientist" | "ai-engineer";
+}
+
+const Hero = ({ role }: HeroProps) => {
+  const roleData = {
+    "data-scientist": {
+      title: "Data Scientist",
+      subtitle: "Turning Data into Insights",
+      description: "I transform complex data into actionable insights using statistical analysis, machine learning, and visualization to drive data-driven decision making.",
+      skills: ["Python", "R", "SQL", "Machine Learning", "Statistics", "Data Visualization"]
+    },
+    "ai-engineer": {
+      title: "AI Engineer",
+      subtitle: "Building Intelligent Systems",
+      description: "I design and deploy AI systems that solve real-world problems using deep learning, natural language processing, and computer vision technologies.",
+      skills: ["PyTorch", "TensorFlow", "MLOps", "Deep Learning", "NLP", "Computer Vision"]
+    }
+  };
+
+  const currentRole = roleData[role];
+
+  return (
+    <section 
+      className="min-h-screen flex items-center justify-center relative overflow-hidden"
+      style={{
+        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9)), url(${heroBackground})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
+
+      <div className="container mx-auto px-6 py-20 relative z-10">
+        <div className="text-center max-w-4xl mx-auto">
+          {/* Role Badge */}
+          <div className="inline-flex items-center bg-primary/10 border border-primary/20 rounded-full px-6 py-2 mb-8 animate-fade-in">
+            <span className="text-primary font-medium">{currentRole.title}</span>
+          </div>
+
+          {/* Main Heading */}
+          <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 animate-fade-in">
+            <span className="block">Hi, I'm</span>
+            <span className="bg-gradient-primary bg-clip-text text-transparent">
+              Alex Johnson
+            </span>
+          </h1>
+
+          {/* Subtitle */}
+          <h2 className="text-2xl md:text-3xl text-muted-foreground mb-8 animate-fade-in">
+            {currentRole.subtitle}
+          </h2>
+
+          {/* Description */}
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed animate-fade-in">
+            {currentRole.description}
+          </p>
+
+          {/* Skills Tags */}
+          <div className="flex flex-wrap justify-center gap-3 mb-12 animate-fade-in">
+            {currentRole.skills.map((skill, index) => (
+              <span
+                key={skill}
+                className="bg-muted/50 border border-border rounded-full px-4 py-2 text-sm text-foreground backdrop-blur-sm hover:bg-primary/10 hover:border-primary/30 transition-all duration-300"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-fade-in">
+            <Button variant="hero" size="lg" className="group">
+              <Download className="mr-2 h-5 w-5 group-hover:animate-bounce" />
+              Download Resume
+            </Button>
+            <Button variant="outline" size="lg" className="group">
+              <Mail className="mr-2 h-5 w-5 group-hover:animate-bounce" />
+              Get In Touch
+            </Button>
+          </div>
+
+          {/* Social Links */}
+          <div className="flex justify-center space-x-6 mb-12 animate-fade-in">
+            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all">
+              <Github className="h-6 w-6" />
+            </Button>
+            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all">
+              <Linkedin className="h-6 w-6" />
+            </Button>
+            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all">
+              <Mail className="h-6 w-6" />
+            </Button>
+          </div>
+
+          {/* Scroll Indicator */}
+          <div className="animate-bounce">
+            <ArrowDown className="h-6 w-6 text-muted-foreground mx-auto" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
