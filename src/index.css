@@ -18,7 +18,7 @@
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
 
-    /* Primary brand - Tech blue */
+    /* Data Scientist Theme - Tech blue */
     --primary: 217 91% 60%;
     --primary-foreground: 0 0% 98%;
     --primary-glow: 217 91% 70%;
@@ -57,20 +57,44 @@
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  /* AI Engineer Theme */
+  :root[data-role="ai-engineer"] {
+    /* Electric cyan primary */
+    --primary: 180 100% 50%;
+    --primary-foreground: 240 10% 3.9%;
+    --primary-glow: 165 100% 45%;
+
+    /* Electric secondary */
+    --secondary: 190 85% 15%;
+    --secondary-foreground: 180 100% 90%;
+
+    /* AI-specific accent - Bright electric green */
+    --accent: 165 100% 45%;
+    --accent-foreground: 240 10% 3.9%;
+
+    /* Muted AI tones */
+    --muted: 190 85% 15%;
+    --muted-foreground: 180 50% 65%;
+    --border: 190 85% 15%;
+
+    /* AI-specific gradients and shadows */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--primary)));
+    --shadow-glow: 0 0 40px hsl(var(--primary) / 0.4);
+    --shadow-card: 0 8px 32px hsl(var(--primary) / 0.2);
+    
+    /* AI electric glow effects */
+    --ai-glow: 0 0 20px hsl(180 100% 50% / 0.5);
+    --ai-pulse: 0 0 40px hsl(165 100% 45% / 0.6);
   }
 
   .dark {
@@ -119,5 +143,22 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* AI Theme Utility Classes */
+@layer utilities {
+  .shadow-ai-glow {
+    box-shadow: var(--ai-glow);
+  }
+
+  .shadow-ai-pulse {
+    box-shadow: var(--ai-pulse);
+    animation: ai-pulse 2s infinite;
+  }
+
+  @keyframes ai-pulse {
+    0%, 100% { box-shadow: var(--ai-glow); }
+    50% { box-shadow: var(--ai-pulse); }
   }
 }

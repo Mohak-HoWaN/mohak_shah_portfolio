@@ -1,3 +1,4 @@
+import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { GraduationCap, Briefcase, Award, TrendingUp } from "lucide-react";
@@ -46,8 +47,12 @@ const About = ({ role }: AboutProps) => {
 
   const currentRole = roleData[role];
 
+  React.useEffect(() => {
+    document.documentElement.setAttribute('data-role', role);
+  }, [role]);
+
   return (
-    <section id="about" className="py-20 bg-muted/20">
+    <section id="about" className={`py-20 ${role === 'ai-engineer' ? 'bg-muted/15' : 'bg-muted/20'}`}>
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-foreground mb-4 animate-fade-in">
@@ -79,11 +84,19 @@ const About = ({ role }: AboutProps) => {
             {currentRole.achievements.map((achievement, index) => (
               <Card 
                 key={index} 
-                className="bg-card/50 backdrop-blur-sm border-border/50 hover:bg-card/80 hover:shadow-card transition-all duration-300 group"
+                className={`backdrop-blur-sm transition-all duration-300 group ${
+                  role === 'ai-engineer'
+                    ? 'bg-card/30 border-border/30 hover:bg-card/60 hover:shadow-ai-glow hover:border-primary/30'
+                    : 'bg-card/50 border-border/50 hover:bg-card/80 hover:shadow-card'
+                }`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <CardContent className="p-6 text-center">
-                  <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-4 group-hover:bg-primary/20 transition-colors">
+                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full mb-4 transition-colors ${
+                    role === 'ai-engineer'
+                      ? 'bg-primary/15 group-hover:bg-primary/25 group-hover:shadow-ai-glow'
+                      : 'bg-primary/10 group-hover:bg-primary/20'
+                  }`}>
                     <achievement.icon className="h-6 w-6 text-primary" />
                   </div>
                   <h4 className="text-lg font-semibold text-foreground mb-2">
@@ -116,14 +129,14 @@ const About = ({ role }: AboutProps) => {
             )}
             {role === "ai-engineer" && (
               <>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">PyTorch</Badge>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">TensorFlow</Badge>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">Transformers</Badge>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">LangChain</Badge>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">Kubernetes</Badge>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">MLflow</Badge>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">FastAPI</Badge>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">AWS</Badge>
+                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">PyTorch</Badge>
+                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">TensorFlow</Badge>
+                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">Transformers</Badge>
+                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">LangChain</Badge>
+                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">Kubernetes</Badge>
+                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">MLflow</Badge>
+                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">FastAPI</Badge>
+                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">AWS</Badge>
               </>
             )}
           </div>

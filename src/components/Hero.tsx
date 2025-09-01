@@ -1,3 +1,4 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Download, Github, Linkedin, Mail } from "lucide-react";
 import heroBackground from "@/assets/hero-bg.jpg";
@@ -24,9 +25,15 @@ const Hero = ({ role }: HeroProps) => {
 
   const currentRole = roleData[role];
 
+  React.useEffect(() => {
+    document.documentElement.setAttribute('data-role', role);
+  }, [role]);
+
   return (
     <section 
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
+      className={`min-h-screen flex items-center justify-center relative overflow-hidden ${
+        role === 'ai-engineer' ? 'ai-theme' : 'ds-theme'
+      }`}
       style={{
         backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9)), url(${heroBackground})`,
         backgroundSize: 'cover',
@@ -36,15 +43,31 @@ const Hero = ({ role }: HeroProps) => {
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+        <div className={`absolute top-20 left-10 w-72 h-72 rounded-full blur-3xl animate-pulse ${
+          role === 'ai-engineer' ? 'bg-primary/15 shadow-ai-glow' : 'bg-primary/10'
+        }`}></div>
+        <div className={`absolute bottom-20 right-10 w-96 h-96 rounded-full blur-3xl animate-pulse delay-1000 ${
+          role === 'ai-engineer' ? 'bg-accent/15 shadow-ai-pulse' : 'bg-secondary/10'
+        }`}></div>
+        <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full blur-3xl animate-pulse delay-500 ${
+          role === 'ai-engineer' ? 'bg-primary/10 shadow-ai-glow' : 'bg-accent/10'
+        }`}></div>
+        {role === 'ai-engineer' && (
+          <>
+            <div className="absolute top-10 right-1/4 w-32 h-32 bg-accent/20 rounded-full blur-2xl animate-ping"></div>
+            <div className="absolute bottom-10 left-1/4 w-48 h-48 bg-primary/10 rounded-full blur-2xl animate-pulse delay-2000"></div>
+          </>
+        )}
       </div>
 
       <div className="container mx-auto px-6 py-20 relative z-10">
         <div className="text-center max-w-4xl mx-auto">
           {/* Role Badge */}
-          <div className="inline-flex items-center bg-primary/10 border border-primary/20 rounded-full px-6 py-2 mb-8 animate-fade-in">
+          <div className={`inline-flex items-center border rounded-full px-6 py-2 mb-8 animate-fade-in ${
+            role === 'ai-engineer' 
+              ? 'bg-primary/15 border-primary/30 shadow-ai-glow' 
+              : 'bg-primary/10 border-primary/20'
+          }`}>
             <span className="text-primary font-medium">{currentRole.title}</span>
           </div>
 
@@ -71,7 +94,11 @@ const Hero = ({ role }: HeroProps) => {
             {currentRole.skills.map((skill, index) => (
               <span
                 key={skill}
-                className="bg-muted/50 border border-border rounded-full px-4 py-2 text-sm text-foreground backdrop-blur-sm hover:bg-primary/10 hover:border-primary/30 transition-all duration-300"
+                className={`border rounded-full px-4 py-2 text-sm text-foreground backdrop-blur-sm transition-all duration-300 ${
+                  role === 'ai-engineer'
+                    ? 'bg-muted/30 border-border hover:bg-primary/15 hover:border-primary/40 hover:shadow-ai-glow hover:text-primary'
+                    : 'bg-muted/50 border-border hover:bg-primary/10 hover:border-primary/30'
+                }`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {skill}

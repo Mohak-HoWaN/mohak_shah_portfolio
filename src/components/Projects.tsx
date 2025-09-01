@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +10,10 @@ interface ProjectsProps {
 
 const Projects = ({ role }: ProjectsProps) => {
   const [activeFilter, setActiveFilter] = useState("all");
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-role', role);
+  }, [role]);
 
   const dataScientistProjects = [
     {
@@ -145,10 +149,18 @@ const Projects = ({ role }: ProjectsProps) => {
           {filteredProjects.map((project, index) => (
             <Card 
               key={project.id}
-              className={`bg-card/50 backdrop-blur-sm hover:bg-card/80 hover:shadow-card transition-all duration-300 group overflow-hidden animate-fade-in ${
-                project.status === 'ongoing' 
-                  ? 'border-accent/50 shadow-accent/20 shadow-lg' 
-                  : 'border-border/50'
+              className={`backdrop-blur-sm transition-all duration-300 group overflow-hidden animate-fade-in ${
+                role === 'ai-engineer'
+                  ? `bg-card/30 hover:bg-card/60 hover:shadow-ai-glow ${
+                      project.status === 'ongoing' 
+                        ? 'border-accent/60 shadow-ai-pulse shadow-lg' 
+                        : 'border-border/30 hover:border-primary/30'
+                    }`
+                  : `bg-card/50 hover:bg-card/80 hover:shadow-card ${
+                      project.status === 'ongoing' 
+                        ? 'border-accent/50 shadow-accent/20 shadow-lg' 
+                        : 'border-border/50'
+                    }`
               }`}
               style={{ animationDelay: `${index * 100}ms` }}
             >
@@ -159,7 +171,9 @@ const Projects = ({ role }: ProjectsProps) => {
                   alt={project.title}
                   className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center ${
+                  role === 'ai-engineer' ? 'bg-primary/30' : 'bg-primary/20'
+                }`}>
                   <div className="flex space-x-4">
                     <Button size="sm" variant="secondary" asChild>
                       <a href={project.github} target="_blank" rel="noopener noreferrer">
