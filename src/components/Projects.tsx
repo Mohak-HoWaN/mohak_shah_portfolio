@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Github, Filter } from "lucide-react";
+import { ExternalLink, Github, Filter, Clock, CheckCircle } from "lucide-react";
 
 interface ProjectsProps {
   role: "data-scientist" | "ai-engineer";
@@ -19,6 +19,7 @@ const Projects = ({ role }: ProjectsProps) => {
       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=200&fit=crop",
       technologies: ["Python", "Scikit-learn", "Pandas", "XGBoost"],
       category: "Machine Learning",
+      status: "completed",
       github: "#",
       demo: "#"
     },
@@ -29,6 +30,7 @@ const Projects = ({ role }: ProjectsProps) => {
       image: "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=400&h=200&fit=crop",
       technologies: ["R", "Tableau", "SQL", "ARIMA"],
       category: "Analytics",
+      status: "completed",
       github: "#",
       demo: "#"
     },
@@ -39,6 +41,18 @@ const Projects = ({ role }: ProjectsProps) => {
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=200&fit=crop",
       technologies: ["Python", "Scipy", "Statsmodels", "Plotly"],
       category: "Statistics",
+      status: "ongoing",
+      github: "#",
+      demo: "#"
+    },
+    {
+      id: 4,
+      title: "Deep Learning Model Optimization",
+      description: "Developing advanced neural network architectures for improved performance in computer vision tasks.",
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=200&fit=crop",
+      technologies: ["PyTorch", "CUDA", "TensorBoard", "Optuna"],
+      category: "Deep Learning",
+      status: "ongoing",
       github: "#",
       demo: "#"
     }
@@ -52,6 +66,7 @@ const Projects = ({ role }: ProjectsProps) => {
       image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=200&fit=crop",
       technologies: ["PyTorch", "Transformers", "FastAPI", "Docker"],
       category: "NLP",
+      status: "completed",
       github: "#",
       demo: "#"
     },
@@ -62,6 +77,7 @@ const Projects = ({ role }: ProjectsProps) => {
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop",
       technologies: ["TensorFlow", "OpenCV", "YOLO", "Kubernetes"],
       category: "Computer Vision",
+      status: "completed",
       github: "#",
       demo: "#"
     },
@@ -72,6 +88,18 @@ const Projects = ({ role }: ProjectsProps) => {
       image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=400&h=200&fit=crop",
       technologies: ["LangChain", "OpenAI", "Vector DB", "Streamlit"],
       category: "LLM",
+      status: "ongoing",
+      github: "#",
+      demo: "#"
+    },
+    {
+      id: 4,
+      title: "Multi-Modal AI Assistant",
+      description: "Building an advanced AI assistant capable of processing text, images, and audio for comprehensive user interactions.",
+      image: "https://images.unsplash.com/photo-1677756119517-756a188d2d94?w=400&h=200&fit=crop",
+      technologies: ["GPT-4", "Whisper", "CLIP", "React"],
+      category: "Multi-Modal AI",
+      status: "ongoing",
       github: "#",
       demo: "#"
     }
@@ -117,7 +145,11 @@ const Projects = ({ role }: ProjectsProps) => {
           {filteredProjects.map((project, index) => (
             <Card 
               key={project.id}
-              className="bg-card/50 backdrop-blur-sm border-border/50 hover:bg-card/80 hover:shadow-card transition-all duration-300 group overflow-hidden animate-fade-in"
+              className={`bg-card/50 backdrop-blur-sm hover:bg-card/80 hover:shadow-card transition-all duration-300 group overflow-hidden animate-fade-in ${
+                project.status === 'ongoing' 
+                  ? 'border-accent/50 shadow-accent/20 shadow-lg' 
+                  : 'border-border/50'
+              }`}
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Project Image */}
@@ -144,12 +176,34 @@ const Projects = ({ role }: ProjectsProps) => {
               </div>
 
               <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mb-2">
                   <CardTitle className="text-lg text-foreground group-hover:text-primary transition-colors">
                     {project.title}
                   </CardTitle>
                   <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
                     {project.category}
+                  </Badge>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Badge 
+                    variant={project.status === 'ongoing' ? 'default' : 'outline'}
+                    className={`text-xs ${
+                      project.status === 'ongoing' 
+                        ? 'bg-accent text-accent-foreground border-accent animate-pulse' 
+                        : 'bg-success/10 text-success border-success/30'
+                    }`}
+                  >
+                    {project.status === 'ongoing' ? (
+                      <>
+                        <Clock className="mr-1 h-3 w-3" />
+                        In Progress
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle className="mr-1 h-3 w-3" />
+                        Completed
+                      </>
+                    )}
                   </Badge>
                 </div>
               </CardHeader>
