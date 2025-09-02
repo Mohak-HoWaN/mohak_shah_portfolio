@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Projects from "@/components/Projects";
+import Certificates from "@/components/Certificates";
 import Contact from "@/components/Contact";
 
 const Index = () => {
@@ -14,6 +15,7 @@ const Index = () => {
       <Hero role={role} />
       <About role={role} />
       <Projects role={role} />
+      <Certificates role={role} />
       <Contact />
     </div>
   );
