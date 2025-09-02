@@ -30,11 +30,11 @@ const Header = ({ role, onRoleChange }: HeaderProps) => {
             <a href="#about" className="text-muted-foreground hover:text-primary transition-colors">
               About
             </a>
-            <a href="#skills" className="text-muted-foreground hover:text-primary transition-colors">
-              Skills
-            </a>
             <a href="#projects" className="text-muted-foreground hover:text-primary transition-colors">
               Projects
+            </a>
+            <a href="#certificates" className="text-muted-foreground hover:text-primary transition-colors">
+              Certificates
             </a>
             <a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">
               Contact
@@ -75,11 +75,11 @@ const Header = ({ role, onRoleChange }: HeaderProps) => {
               <a href="#about" className="text-muted-foreground hover:text-primary transition-colors">
                 About
               </a>
-              <a href="#skills" className="text-muted-foreground hover:text-primary transition-colors">
-                Skills
-              </a>
               <a href="#projects" className="text-muted-foreground hover:text-primary transition-colors">
                 Projects
+              </a>
+              <a href="#certificates" className="text-muted-foreground hover:text-primary transition-colors">
+                Certificates
               </a>
               <a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">
                 Contact
