@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Award, Calendar, ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Award, Calendar, ExternalLink, Filter } from "lucide-react";
 
 interface CertificatesProps {
   role: "data-scientist" | "ai-engineer";
 }
 
 const Certificates = ({ role }: CertificatesProps) => {
+  const [activeFilter, setActiveFilter] = useState<string>("all");
+  
+  const filterCategories = [
+    { key: "all", label: "All" },
+    { key: "education", label: "Education" },
+    { key: "webinar", label: "Webinar" },
+    { key: "event", label: "Event" },
+    { key: "hackathon", label: "Hackathon" },
+    { key: "participation", label: "Participation" }
+  ];
+
   const roleData = {
     "data-scientist": {
       title: "Professional Certifications",
@@ -18,7 +30,8 @@ const Certificates = ({ role }: CertificatesProps) => {
           date: "2023",
           status: "Active",
           credentialId: "AWS-MLS-2023-DS",
-          skills: ["AWS SageMaker", "ML Pipeline", "Model Deployment"]
+          skills: ["AWS SageMaker", "ML Pipeline", "Model Deployment"],
+          category: "education"
         },
         {
           name: "Google Cloud Professional Data Engineer",
@@ -26,7 +39,8 @@ const Certificates = ({ role }: CertificatesProps) => {
           date: "2022",
           status: "Active",
           credentialId: "GCP-PDE-2022-DS",
-          skills: ["BigQuery", "Dataflow", "Cloud ML Engine"]
+          skills: ["BigQuery", "Dataflow", "Cloud ML Engine"],
+          category: "education"
         },
         {
           name: "Microsoft Azure Data Scientist Associate",
@@ -34,31 +48,35 @@ const Certificates = ({ role }: CertificatesProps) => {
           date: "2023",
           status: "Active",
           credentialId: "AZ-100-2023-DS",
-          skills: ["Azure ML", "Data Factory", "Cognitive Services"]
+          skills: ["Azure ML", "Data Factory", "Cognitive Services"],
+          category: "education"
         },
         {
-          name: "Certified Analytics Professional (CAP)",
-          issuer: "INFORMS",
-          date: "2021",
+          name: "AI/ML Conference 2023",
+          issuer: "Tech Conference Series",
+          date: "2023",
           status: "Active",
-          credentialId: "CAP-2021-DS",
-          skills: ["Statistical Analysis", "Business Analytics", "Data Mining"]
+          credentialId: "AIC-2023-DS",
+          skills: ["Machine Learning Trends", "Neural Networks", "Data Ethics"],
+          category: "event"
         },
         {
-          name: "Tableau Desktop Certified Professional",
-          issuer: "Tableau",
+          name: "Data Science Bootcamp",
+          issuer: "DataCamp",
           date: "2022",
           status: "Active",
-          credentialId: "TCP-2022-DS",
-          skills: ["Data Visualization", "Dashboard Design", "Advanced Analytics"]
+          credentialId: "DSB-2022-DS",
+          skills: ["Python Programming", "Statistical Analysis", "Data Visualization"],
+          category: "webinar"
         },
         {
-          name: "SAS Certified Statistical Business Analyst",
-          issuer: "SAS Institute",
-          date: "2020",
+          name: "Kaggle Competition Winner",
+          issuer: "Kaggle",
+          date: "2023",
           status: "Active",
-          credentialId: "SAS-CSBA-2020-DS",
-          skills: ["Statistical Modeling", "Predictive Analytics", "SAS Programming"]
+          credentialId: "KCW-2023-DS",
+          skills: ["Competitive ML", "Feature Engineering", "Ensemble Methods"],
+          category: "hackathon"
         }
       ]
     },
@@ -71,7 +89,8 @@ const Certificates = ({ role }: CertificatesProps) => {
           date: "2023",
           status: "Active",
           credentialId: "NVIDIA-DLI-2023-AI",
-          skills: ["CUDA Programming", "TensorRT", "Multi-GPU Training"]
+          skills: ["CUDA Programming", "TensorRT", "Multi-GPU Training"],
+          category: "education"
         },
         {
           name: "TensorFlow Developer Certificate",
@@ -79,45 +98,54 @@ const Certificates = ({ role }: CertificatesProps) => {
           date: "2023",
           status: "Active",
           credentialId: "TF-DEV-2023-AI",
-          skills: ["TensorFlow", "Computer Vision", "NLP", "Time Series"]
+          skills: ["TensorFlow", "Computer Vision", "NLP", "Time Series"],
+          category: "education"
         },
         {
-          name: "AWS Certified Solutions Architect - Professional",
-          issuer: "Amazon Web Services",
-          date: "2022",
-          status: "Active",
-          credentialId: "AWS-SAP-2022-AI",
-          skills: ["Cloud Architecture", "Scalable AI Systems", "DevOps"]
-        },
-        {
-          name: "Kubernetes Certified Application Developer",
-          issuer: "Cloud Native Computing Foundation",
+          name: "AI Innovation Summit 2023",
+          issuer: "AI Summit",
           date: "2023",
           status: "Active",
-          credentialId: "CKAD-2023-AI",
-          skills: ["Container Orchestration", "MLOps", "Microservices"]
+          credentialId: "AIS-2023-AI",
+          skills: ["AI Trends", "Innovation", "Tech Leadership"],
+          category: "event"
         },
         {
-          name: "OpenAI GPT-4 API Specialist",
-          issuer: "OpenAI",
+          name: "MLOps Masterclass",
+          issuer: "Tech Academy",
           date: "2023",
           status: "Active",
-          credentialId: "OPENAI-GPT4-2023-AI",
-          skills: ["Large Language Models", "Prompt Engineering", "API Integration"]
+          credentialId: "MLOPS-2023-AI",
+          skills: ["MLOps", "CI/CD", "Model Monitoring"],
+          category: "webinar"
         },
         {
-          name: "PyTorch Certified Developer",
-          issuer: "PyTorch Foundation",
+          name: "AI Hackathon Winner",
+          issuer: "DevPost",
+          date: "2023",
+          status: "Active",
+          credentialId: "AIH-2023-AI",
+          skills: ["Rapid Prototyping", "Team Collaboration", "AI Applications"],
+          category: "hackathon"
+        },
+        {
+          name: "Open Source Contributor",
+          issuer: "GitHub",
           date: "2022",
           status: "Active",
-          credentialId: "PYTORCH-DEV-2022-AI",
-          skills: ["Deep Learning", "Model Optimization", "Distributed Training"]
+          credentialId: "OSC-2022-AI",
+          skills: ["Open Source", "Code Review", "Community Building"],
+          category: "participation"
         }
       ]
     }
   };
 
   const currentRole = roleData[role];
+  
+  const filteredCertificates = activeFilter === "all" 
+    ? currentRole.certificates 
+    : currentRole.certificates.filter(cert => cert.category === activeFilter);
 
   React.useEffect(() => {
     document.documentElement.setAttribute('data-role', role);
@@ -136,8 +164,45 @@ const Certificates = ({ role }: CertificatesProps) => {
           </p>
         </div>
 
+        {/* Filter Section */}
+        <div className="mb-12">
+          <div className="flex items-center justify-center mb-6">
+            <Filter className={`h-5 w-5 mr-2 ${role === 'ai-engineer' ? 'text-accent' : 'text-primary'}`} />
+            <span className="text-sm font-medium text-muted-foreground">Filter by Category</span>
+          </div>
+          <div className="flex flex-wrap justify-center gap-3">
+            {filterCategories.map((category) => (
+              <Button
+                key={category.key}
+                variant={activeFilter === category.key ? "default" : "outline"}
+                size="sm"
+                onClick={() => setActiveFilter(category.key)}
+                className={`transition-all duration-300 ${
+                  activeFilter === category.key
+                    ? role === 'ai-engineer'
+                      ? 'bg-accent text-accent-foreground hover:bg-accent/90 shadow-ai-glow'
+                      : 'bg-primary text-primary-foreground hover:bg-primary/90'
+                    : role === 'ai-engineer'
+                      ? 'border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/50'
+                      : 'border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50'
+                }`}
+              >
+                {category.label}
+                {activeFilter === category.key && (
+                  <Badge 
+                    variant="secondary" 
+                    className="ml-2 h-5 w-5 p-0 flex items-center justify-center text-xs"
+                  >
+                    {category.key === "all" ? currentRole.certificates.length : filteredCertificates.length}
+                  </Badge>
+                )}
+              </Button>
+            ))}
+          </div>
+        </div>
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {currentRole.certificates.map((cert, index) => (
+          {filteredCertificates.map((cert, index) => (
             <Card 
               key={index}
               className={`group transition-all duration-300 hover:scale-[1.02] ${
@@ -225,7 +290,10 @@ const Certificates = ({ role }: CertificatesProps) => {
 
         <div className="text-center mt-12">
           <p className="text-muted-foreground">
-            All certifications are current and verified. Click on any certificate to view credentials.
+            {filteredCertificates.length === 0 
+              ? `No certificates found in the "${filterCategories.find(f => f.key === activeFilter)?.label}" category.`
+              : `Showing ${filteredCertificates.length} certificate${filteredCertificates.length === 1 ? '' : 's'}. All certifications are current and verified.`
+            }
           </p>
         </div>
       </div>
