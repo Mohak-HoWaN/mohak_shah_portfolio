@@ -75,7 +75,7 @@ const Hero = ({ role }: HeroProps) => {
           <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 animate-fade-in">
             <span className="block">Hi, I'm</span>
             <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Alex Johnson
+              Mohak Shah
             </span>
           </h1>
 
