@@ -10,15 +10,6 @@ interface CertificatesProps {
 
 const Certificates = ({ role }: CertificatesProps) => {
   const [activeFilter, setActiveFilter] = useState<string>("all");
-  
-  const filterCategories = [
-    { key: "all", label: "All" },
-    { key: "education", label: "Education" },
-    { key: "webinar", label: "Webinar" },
-    { key: "event", label: "Event" },
-    { key: "hackathon", label: "Hackathon" },
-    { key: "participation", label: "Participation" }
-  ];
 
   const roleData = {
     "data-scientist": {
@@ -142,6 +133,7 @@ const Certificates = ({ role }: CertificatesProps) => {
   };
 
   const currentRole = roleData[role];
+  const categories = ["all", ...Array.from(new Set(currentRole.certificates.map(cert => cert.category)))];
   
   const filteredCertificates = activeFilter === "all" 
     ? currentRole.certificates 
@@ -164,41 +156,27 @@ const Certificates = ({ role }: CertificatesProps) => {
           </p>
         </div>
 
-        {/* Filter Section */}
-        <div className="mb-12">
-          <div className="flex items-center justify-center mb-6">
-            <Filter className={`h-5 w-5 mr-2 ${role === 'ai-engineer' ? 'text-accent' : 'text-primary'}`} />
-            <span className="text-sm font-medium text-muted-foreground">Filter by Category</span>
-          </div>
-          <div className="flex flex-wrap justify-center gap-3">
-            {filterCategories.map((category) => (
-              <Button
-                key={category.key}
-                variant={activeFilter === category.key ? "default" : "outline"}
-                size="sm"
-                onClick={() => setActiveFilter(category.key)}
-                className={`transition-all duration-300 ${
-                  activeFilter === category.key
-                    ? role === 'ai-engineer'
-                      ? 'bg-accent text-accent-foreground hover:bg-accent/90 shadow-ai-glow'
-                      : 'bg-primary text-primary-foreground hover:bg-primary/90'
-                    : role === 'ai-engineer'
-                      ? 'border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/50'
-                      : 'border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50'
-                }`}
-              >
-                {category.label}
-                {activeFilter === category.key && (
-                  <Badge 
-                    variant="secondary" 
-                    className="ml-2 h-5 w-5 p-0 flex items-center justify-center text-xs"
-                  >
-                    {category.key === "all" ? currentRole.certificates.length : filteredCertificates.length}
-                  </Badge>
-                )}
-              </Button>
-            ))}
-          </div>
+        {/* Filter Buttons */}
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
+          {categories.map((category) => (
+            <Button
+              key={category}
+              variant={activeFilter === category ? "default" : "outline"}
+              onClick={() => setActiveFilter(category)}
+              className={`capitalize transition-all duration-300 ${
+                activeFilter === category
+                  ? role === 'ai-engineer'
+                    ? 'bg-accent text-accent-foreground hover:bg-accent/90 shadow-ai-glow'
+                    : 'bg-primary text-primary-foreground hover:bg-primary/90'
+                  : role === 'ai-engineer'
+                    ? 'border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/50'
+                    : 'border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50'
+              }`}
+            >
+              <Filter className="mr-2 h-4 w-4" />
+              {category}
+            </Button>
+          ))}
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -290,10 +268,7 @@ const Certificates = ({ role }: CertificatesProps) => {
 
         <div className="text-center mt-12">
           <p className="text-muted-foreground">
-            {filteredCertificates.length === 0 
-              ? `No certificates found in the "${filterCategories.find(f => f.key === activeFilter)?.label}" category.`
-              : `Showing ${filteredCertificates.length} certificate${filteredCertificates.length === 1 ? '' : 's'}. All certifications are current and verified.`
-            }
+            All certifications are current and verified. Click on any certificate to view credentials.
           </p>
         </div>
       </div>
