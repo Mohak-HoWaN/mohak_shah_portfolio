@@ -63,9 +63,9 @@ const Contact = () => {
   ];
 
   const socialLinks = [
-    { icon: Github, href: "https://github.com", label: "GitHub" },
-    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-    { icon: Twitter, href: "https://twitter.com", label: "Twitter" }
+    { icon: Github, href: "https://github.com/Mohak-HoWaN", label: "GitHub" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/mohak-shah-55a892286", label: "LinkedIn" },
+    { icon: Twitter, href: "https://x.com/MohakShah8972", label: "Twitter" }
   ];
 
   return (

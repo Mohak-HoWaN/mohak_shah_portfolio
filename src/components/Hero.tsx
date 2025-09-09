@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowDown, Download, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, Download, Github, Linkedin, Mail, Twitter } from "lucide-react";
 import heroBackground from "@/assets/hero-bg.jpg";
 
 interface HeroProps {
@@ -120,14 +120,20 @@ const Hero = ({ role }: HeroProps) => {
 
           {/* Social Links */}
           <div className="flex justify-center space-x-6 mb-12 animate-fade-in">
-            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all">
-              <Github className="h-6 w-6" />
+            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all" asChild>
+              <a href="https://github.com/Mohak-HoWaN" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <Github className="h-6 w-6" />
+              </a>
             </Button>
-            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all">
-              <Linkedin className="h-6 w-6" />
+            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all" asChild>
+              <a href="https://www.linkedin.com/in/mohak-shah-55a892286" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <Linkedin className="h-6 w-6" />
+              </a>
             </Button>
-            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all">
-              <Mail className="h-6 w-6" />
+            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all" asChild>
+              <a href="https://x.com/MohakShah8972" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                <Twitter className="h-6 w-6" />
+              </a>
             </Button>
           </div>
 
