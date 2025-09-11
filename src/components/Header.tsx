@@ -1,10 +1,7 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Database, Bot, Menu, X, LogIn, LogOut, User } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/hooks/use-toast";
+import { Database, Bot, Menu, X } from "lucide-react";
 
 interface HeaderProps {
   role: "data-scientist" | "ai-engineer";
@@ -13,25 +10,6 @@ interface HeaderProps {
 
 const Header = ({ role, onRoleChange }: HeaderProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user, signOut, loading } = useAuth();
-  const { toast } = useToast();
-  const navigate = useNavigate();
-
-  const handleSignOut = async () => {
-    const { error } = await signOut();
-    if (error) {
-      toast({
-        title: "Sign out failed",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Signed out",
-        description: "You've been successfully signed out.",
-      });
-    }
-  };
 
   return (
     <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -63,49 +41,20 @@ const Header = ({ role, onRoleChange }: HeaderProps) => {
             </a>
           </nav>
 
-          {/* Auth & Role Toggle */}
-          <div className="hidden md:flex items-center space-x-4">
-            {/* Role Toggle */}
-            <div className="flex items-center space-x-3">
-              <span className={`text-sm ${role === "data-scientist" ? "text-primary" : "text-muted-foreground"}`}>
-                Data Scientist
-              </span>
-              <Switch
-                checked={role === "ai-engineer"}
-                onCheckedChange={(checked) => 
-                  onRoleChange(checked ? "ai-engineer" : "data-scientist")
-                }
-              />
-              <span className={`text-sm ${role === "ai-engineer" ? "text-primary" : "text-muted-foreground"}`}>
-                AI Engineer
-              </span>
-            </div>
-
-            {/* Auth Buttons */}
-            {user ? (
-              <div className="flex items-center space-x-2">
-                <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                  <User className="h-4 w-4" />
-                  <span>{user.email}</span>
-                </div>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={handleSignOut}
-                  disabled={loading}
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Sign Out
-                </Button>
-              </div>
-            ) : (
-              <Link to="/auth">
-                <Button variant="outline" size="sm">
-                  <LogIn className="h-4 w-4 mr-2" />
-                  Sign In
-                </Button>
-              </Link>
-            )}
+          {/* Role Toggle */}
+          <div className="hidden md:flex items-center space-x-3">
+            <span className={`text-sm ${role === "data-scientist" ? "text-primary" : "text-muted-foreground"}`}>
+              Data Scientist
+            </span>
+            <Switch
+              checked={role === "ai-engineer"}
+              onCheckedChange={(checked) => 
+                onRoleChange(checked ? "ai-engineer" : "data-scientist")
+              }
+            />
+            <span className={`text-sm ${role === "ai-engineer" ? "text-primary" : "text-muted-foreground"}`}>
+              AI Engineer
+            </span>
           </div>
 
           {/* Mobile Menu Button */}
@@ -150,35 +99,6 @@ const Header = ({ role, onRoleChange }: HeaderProps) => {
                 <span className={`text-sm ${role === "ai-engineer" ? "text-primary" : "text-muted-foreground"}`}>
                   AI Engineer
                 </span>
-              </div>
-
-              {/* Mobile Auth */}
-              <div className="pt-4 border-t border-border">
-                {user ? (
-                  <div className="space-y-3">
-                    <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                      <User className="h-4 w-4" />
-                      <span>{user.email}</span>
-                    </div>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={handleSignOut}
-                      disabled={loading}
-                      className="w-full"
-                    >
-                      <LogOut className="h-4 w-4 mr-2" />
-                      Sign Out
-                    </Button>
-                  </div>
-                ) : (
-                  <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="outline" size="sm" className="w-full">
-                      <LogIn className="h-4 w-4 mr-2" />
-                      Sign In
-                    </Button>
-                  </Link>
-                )}
               </div>
             </nav>
           </div>
