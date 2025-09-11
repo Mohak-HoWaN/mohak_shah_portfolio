@@ -163,15 +163,7 @@ const Certificates = ({ role }: CertificatesProps) => {
               key={category}
               variant={activeFilter === category ? "default" : "outline"}
               onClick={() => setActiveFilter(category)}
-              className={`capitalize transition-all duration-300 ${
-                activeFilter === category
-                  ? role === 'ai-engineer'
-                    ? 'bg-accent text-accent-foreground hover:bg-accent/90 shadow-ai-glow'
-                    : 'bg-primary text-primary-foreground hover:bg-primary/90'
-                  : role === 'ai-engineer'
-                    ? 'border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/50'
-                    : 'border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50'
-              }`}
+              className="capitalize"
             >
               <Filter className="mr-2 h-4 w-4" />
               {category}
