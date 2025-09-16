@@ -108,9 +108,11 @@ const Hero = ({ role }: HeroProps) => {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-fade-in">
-            <Button variant="hero" size="lg" className="group">
-              <Download className="mr-2 h-5 w-5 group-hover:animate-bounce" />
-              Download Resume
+            <Button variant="hero" size="lg" className="group" asChild>
+              <a href="/resume.pdf" download="Mohak_Shah_Resume.pdf">
+                <Download className="mr-2 h-5 w-5 group-hover:animate-bounce" />
+                Download Resume
+              </a>
             </Button>
             <Button variant="outline" size="lg" className="group">
               <Mail className="mr-2 h-5 w-5 group-hover:animate-bounce" />
