@@ -18,14 +18,14 @@ const Projects = ({ role }: ProjectsProps) => {
   const dataScientistProjects = [
     {
       id: 1,
-      title: "Customer Churn Prediction",
-      description: "Built a machine learning model to predict customer churn with 94% accuracy using ensemble methods and feature engineering.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=200&fit=crop",
-      technologies: ["Python", "Scikit-learn", "Pandas", "XGBoost"],
+      title: "Health Care Center",
+      description: "Personalized Medical Recommendation System with Machine Learning Model with 78% Accuracy",
+      image: "/project_images/health-care-center-new.png",
+      technologies: ["Python", "Scikit-learn", "Pandas", "SVM"],
       category: "Machine Learning",
       status: "completed",
-      github: "#",
-      demo: "#"
+      github: "https://github.com/Mohak-HoWaN/Health-Care-Center",
+      demo: "https://health-care-center-k3gk.onrender.com/"
     },
     {
       id: 2,
