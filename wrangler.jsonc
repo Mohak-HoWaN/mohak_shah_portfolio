@@ -4,6 +4,8 @@
   "name": "mohak-shah",
   "main": "worker/index.ts",
   "compatibility_date": "2026-11-01",
+  // Keeps the worker's logs (such as Resend's reply when a message fails) in the dashboard's Logs tab
+  "observability": { "enabled": true },
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
