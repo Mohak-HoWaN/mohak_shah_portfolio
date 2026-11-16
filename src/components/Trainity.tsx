@@ -106,7 +106,7 @@ const studies: Study[] = [
 
 const Trainity = () => (
   <article className="grid gap-8 lg:grid-cols-12 lg:gap-10">
-    <div className="lg:col-span-7">
+    <div className="order-last lg:order-none lg:col-span-7">
       <div className="overflow-hidden rounded-lg border bg-card">
         <p className="flex items-center gap-2 border-b px-4 py-3 font-mono text-xs text-muted-foreground">
           <FolderOpen className="size-4 text-primary" strokeWidth={1.5} />

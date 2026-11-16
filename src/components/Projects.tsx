@@ -148,7 +148,7 @@ const FeaturedProject = ({ project }: { project: Project }) => {
 
   return (
     <article ref={ref} className="grid gap-8 lg:grid-cols-12 lg:gap-10">
-      <div className="lg:col-span-7">
+      <div className="order-last lg:order-none lg:col-span-7">
         <div className="relative">
           <div className="relative overflow-hidden rounded-lg border bg-card">
             {project.visual ?? (
@@ -210,16 +210,16 @@ const Projects = ({ role }: ProjectsProps) => {
       <div className="wrap">
         <h2 className="font-display text-4xl tracking-tight md:text-6xl">Selected work</h2>
         <p className="mt-4 max-w-xl text-muted-foreground">
-          Six projects across computer vision, AI engineering and data science, and a folder of analytics case studies.
-          The lens you pick sets the order.
+          Six projects across computer vision, AI engineering and data science
+          {role === "data-scientist" && ", and a folder of analytics case studies"}. The lens you pick sets the order.
         </p>
 
         <div className="mt-14 space-y-16 md:mt-16 md:space-y-24">
           {featured.map((project) => (
             <Fragment key={project.title}>
               <FeaturedProject project={project} />
-              {/* The analytics case studies sit under the other data science work */}
-              {project.title === "Health Care Center" && <Trainity />}
+              {/* The analytics case studies sit under the other data science work, on that lens only */}
+              {role === "data-scientist" && project.title === "Health Care Center" && <Trainity />}
             </Fragment>
           ))}
         </div>

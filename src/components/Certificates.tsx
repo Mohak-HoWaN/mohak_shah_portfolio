@@ -109,15 +109,15 @@ const credentials: Credential[] = [
 ];
 
 const filters: { value: Category | "all"; label: string }[] = [
-  { value: "all", label: "All" },
   { value: "certification", label: "Certifications" },
   { value: "internship", label: "Internships" },
   { value: "training", label: "Training" },
   { value: "hackathon", label: "Hackathons" },
+  { value: "all", label: "All" },
 ];
 
 const Certificates = () => {
-  const [activeFilter, setActiveFilter] = useState<Category | "all">("all");
+  const [activeFilter, setActiveFilter] = useState<Category | "all">("certification");
 
   const filtered =
     activeFilter === "all" ? credentials : credentials.filter((credential) => credential.category === activeFilter);
