@@ -46,7 +46,8 @@ export default {
     });
     if (!sent.ok) {
       console.error("Resend error", sent.status, await sent.text());
-      return json({ success: false, error: "Could not send the message" }, 502);
+      // The status alone (401 bad key, 403 recipient not allowed) says what to fix without exposing Resend's reply
+      return json({ success: false, error: `Could not send the message (mail service ${sent.status})` }, 502);
     }
     return json({ success: true });
   },
