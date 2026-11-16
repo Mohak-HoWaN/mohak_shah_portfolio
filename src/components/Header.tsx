@@ -52,7 +52,8 @@ const Header = ({ role, onRoleChange, sound, onSoundChange }: HeaderProps) => {
       )}
     >
       <div className="wrap flex h-14 items-center justify-between gap-6">
-        <a href="#top" className="rounded-sm font-medium">
+        <a href="#top" className="flex items-center gap-2.5 rounded-sm font-medium">
+          <img src="/favicon.svg" alt="" width={24} height={24} className="size-6" />
           Mohak Shah
         </a>
 
