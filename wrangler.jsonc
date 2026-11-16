@@ -1,0 +1,9 @@
+// Cloudflare deploy: the built site in dist/ served as static files; any unknown path gets index.html, whose router shows the 404 page
+{
+  "name": "mohak-shah",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}
