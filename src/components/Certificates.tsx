@@ -1,268 +1,176 @@
-import React, { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Award, Calendar, ExternalLink, Filter } from "lucide-react";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
-interface CertificatesProps {
-  role: "data-scientist" | "ai-engineer";
+type Category = "certification" | "internship" | "training" | "hackathon";
+
+interface Credential {
+  date: string;
+  name: string;
+  issuer: string;
+  category: Category;
+  credentialId?: string;
 }
 
-const Certificates = ({ role }: CertificatesProps) => {
-  const [activeFilter, setActiveFilter] = useState<string>("all");
+// Newest first. Every entry has a certificate on file.
+const credentials: Credential[] = [
+  {
+    date: "Jul 2026",
+    name: "Machine Learning for Automotive Safety, project certificate",
+    issuer: "ProoV",
+    category: "certification",
+    credentialId: "PRV-2026-A192F2F5",
+  },
+  {
+    date: "Oct 2025",
+    name: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
+    issuer: "Oracle",
+    category: "certification",
+    credentialId: "323307691OCI25AICFA",
+  },
+  {
+    date: "Jun 2025",
+    name: "AI/ML Intern, one-month programme",
+    issuer: "Micro Information Technology Services",
+    category: "internship",
+    credentialId: "MITS136428",
+  },
+  { date: "Jun 2025", name: "GenAI Job Simulation", issuer: "BCG X on Forage", category: "training" },
+  {
+    date: "Jun 2025",
+    name: "One-week Artificial Intelligence challenge",
+    issuer: "NoviTech R&D",
+    category: "training",
+    credentialId: "NT_5AIV834",
+  },
+  { date: "Mar 2025", name: "HackNUthon 6.0, Petpooja track", issuer: "Nirma University", category: "hackathon" },
+  {
+    date: "Feb 2025",
+    name: "Data Analytics virtual internship",
+    issuer: "Trainity",
+    category: "internship",
+    credentialId: "110777",
+  },
+  {
+    date: "Jan 2025",
+    name: "Eight-week Data Analytics specialization",
+    issuer: "Trainity",
+    category: "training",
+    credentialId: "110777",
+  },
+  {
+    date: "Jan 2025",
+    name: "Real-time Twitter analytics dashboard in Power BI",
+    issuer: "NullClass",
+    category: "training",
+  },
+  {
+    date: "Dec 2024",
+    name: "Artificial Intelligence internship, September to December",
+    issuer: "MindSparc",
+    category: "internship",
+    credentialId: "TMIN20243714",
+  },
+  {
+    date: "Nov 2024",
+    name: "Odoo x Amalthea Hackathon, 24 hours",
+    issuer: "IIT Gandhinagar",
+    category: "hackathon",
+  },
+  {
+    date: "Sep 2024",
+    name: "Smart India Hackathon 2024, internal round",
+    issuer: "Sankalchand Patel College of Engineering",
+    category: "hackathon",
+  },
+  {
+    date: "Aug 2024",
+    name: "DataQuest Hackathon 2024",
+    issuer: "Adani Institute of Digital Technology Management",
+    category: "hackathon",
+  },
+  {
+    date: "Aug 2024",
+    name: "Robo-AI, 30-day industrial training in robotics automation and simulation",
+    issuer: "My Equation",
+    category: "training",
+  },
+  {
+    date: "Jul 2024",
+    name: "Google Data Analytics, five courses",
+    issuer: "Google on Coursera",
+    category: "certification",
+  },
+  {
+    date: "Nov 2023",
+    name: "New India Vibrant Hackathon 2023, grand finale",
+    issuer: "SSIP Gujarat, at PDEU Gandhinagar",
+    category: "hackathon",
+  },
+];
 
-  const roleData = {
-    "data-scientist": {
-      title: "Professional Certifications",
-      certificates: [
-        {
-          name: "AWS Certified Machine Learning - Specialty",
-          issuer: "Amazon Web Services",
-          date: "2023",
-          status: "Active",
-          credentialId: "AWS-MLS-2023-DS",
-          skills: ["AWS SageMaker", "ML Pipeline", "Model Deployment"],
-          category: "education"
-        },
-        {
-          name: "Google Cloud Professional Data Engineer",
-          issuer: "Google Cloud",
-          date: "2022",
-          status: "Active",
-          credentialId: "GCP-PDE-2022-DS",
-          skills: ["BigQuery", "Dataflow", "Cloud ML Engine"],
-          category: "education"
-        },
-        {
-          name: "Microsoft Azure Data Scientist Associate",
-          issuer: "Microsoft",
-          date: "2023",
-          status: "Active",
-          credentialId: "AZ-100-2023-DS",
-          skills: ["Azure ML", "Data Factory", "Cognitive Services"],
-          category: "education"
-        },
-        {
-          name: "AI/ML Conference 2023",
-          issuer: "Tech Conference Series",
-          date: "2023",
-          status: "Active",
-          credentialId: "AIC-2023-DS",
-          skills: ["Machine Learning Trends", "Neural Networks", "Data Ethics"],
-          category: "event"
-        },
-        {
-          name: "Data Science Bootcamp",
-          issuer: "DataCamp",
-          date: "2022",
-          status: "Active",
-          credentialId: "DSB-2022-DS",
-          skills: ["Python Programming", "Statistical Analysis", "Data Visualization"],
-          category: "webinar"
-        },
-        {
-          name: "Kaggle Competition Winner",
-          issuer: "Kaggle",
-          date: "2023",
-          status: "Active",
-          credentialId: "KCW-2023-DS",
-          skills: ["Competitive ML", "Feature Engineering", "Ensemble Methods"],
-          category: "hackathon"
-        }
-      ]
-    },
-    "ai-engineer": {
-      title: "AI & Engineering Certifications",
-      certificates: [
-        {
-          name: "NVIDIA Deep Learning Institute - AI Engineering",
-          issuer: "NVIDIA",
-          date: "2023",
-          status: "Active",
-          credentialId: "NVIDIA-DLI-2023-AI",
-          skills: ["CUDA Programming", "TensorRT", "Multi-GPU Training"],
-          category: "education"
-        },
-        {
-          name: "TensorFlow Developer Certificate",
-          issuer: "Google",
-          date: "2023",
-          status: "Active",
-          credentialId: "TF-DEV-2023-AI",
-          skills: ["TensorFlow", "Computer Vision", "NLP", "Time Series"],
-          category: "education"
-        },
-        {
-          name: "AI Innovation Summit 2023",
-          issuer: "AI Summit",
-          date: "2023",
-          status: "Active",
-          credentialId: "AIS-2023-AI",
-          skills: ["AI Trends", "Innovation", "Tech Leadership"],
-          category: "event"
-        },
-        {
-          name: "MLOps Masterclass",
-          issuer: "Tech Academy",
-          date: "2023",
-          status: "Active",
-          credentialId: "MLOPS-2023-AI",
-          skills: ["MLOps", "CI/CD", "Model Monitoring"],
-          category: "webinar"
-        },
-        {
-          name: "AI Hackathon Winner",
-          issuer: "DevPost",
-          date: "2023",
-          status: "Active",
-          credentialId: "AIH-2023-AI",
-          skills: ["Rapid Prototyping", "Team Collaboration", "AI Applications"],
-          category: "hackathon"
-        },
-        {
-          name: "Open Source Contributor",
-          issuer: "GitHub",
-          date: "2022",
-          status: "Active",
-          credentialId: "OSC-2022-AI",
-          skills: ["Open Source", "Code Review", "Community Building"],
-          category: "participation"
-        }
-      ]
-    }
-  };
+const filters: { value: Category | "all"; label: string }[] = [
+  { value: "all", label: "All" },
+  { value: "certification", label: "Certifications" },
+  { value: "internship", label: "Internships" },
+  { value: "training", label: "Training" },
+  { value: "hackathon", label: "Hackathons" },
+];
 
-  const currentRole = roleData[role];
-  const categories = ["all", ...Array.from(new Set(currentRole.certificates.map(cert => cert.category)))];
-  
-  const filteredCertificates = activeFilter === "all" 
-    ? currentRole.certificates 
-    : currentRole.certificates.filter(cert => cert.category === activeFilter);
+const Certificates = () => {
+  const [activeFilter, setActiveFilter] = useState<Category | "all">("all");
 
-  React.useEffect(() => {
-    document.documentElement.setAttribute('data-role', role);
-  }, [role]);
+  const filtered =
+    activeFilter === "all" ? credentials : credentials.filter((credential) => credential.category === activeFilter);
 
   return (
-    <section id="certificates" className={`py-20 ${role === 'ai-engineer' ? 'bg-background' : 'bg-muted/10'}`}>
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-foreground mb-4 animate-fade-in">
-            {currentRole.title}
-          </h2>
-          <div className="w-24 h-1 bg-gradient-primary mx-auto animate-fade-in"></div>
-          <p className="text-lg text-muted-foreground mt-6 max-w-2xl mx-auto">
-            Professional certifications demonstrating expertise and commitment to continuous learning
-          </p>
-        </div>
+    <section id="credentials" className="border-t py-20 md:py-28">
+      <div className="wrap">
+        <h2 className="font-display text-4xl tracking-tight md:text-6xl">Credentials</h2>
+        <p className="mt-4 max-w-xl text-muted-foreground">
+          Certifications, internships, training and hackathons, newest first.
+        </p>
 
-        {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {categories.map((category) => (
-            <Button
-              key={category}
-              variant={activeFilter === category ? "default" : "outline"}
-              onClick={() => setActiveFilter(category)}
-              className="capitalize"
+        <div role="group" aria-label="Filter credentials" className="mt-10 flex flex-wrap gap-2">
+          {filters.map((filter) => (
+            <button
+              key={filter.value}
+              type="button"
+              aria-pressed={activeFilter === filter.value}
+              onClick={() => setActiveFilter(filter.value)}
+              className={cn(
+                "h-11 rounded-md border px-4 text-sm transition-colors md:h-9",
+                activeFilter === filter.value
+                  ? "border-foreground/30 bg-secondary text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
             >
-              <Filter className="mr-2 h-4 w-4" />
-              {category}
-            </Button>
+              {filter.label}
+              <span className="ml-2 font-mono text-xs tabular-nums text-faint">
+                {filter.value === "all"
+                  ? credentials.length
+                  : credentials.filter((credential) => credential.category === filter.value).length}
+              </span>
+            </button>
           ))}
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCertificates.map((cert, index) => (
-            <Card 
-              key={index}
-              className={`group transition-all duration-300 hover:scale-[1.02] ${
-                role === 'ai-engineer'
-                  ? 'bg-card/40 border-border/40 hover:bg-card/60 hover:shadow-ai-glow hover:border-accent/50'
-                  : 'bg-card/60 border-border/60 hover:bg-card/80 hover:shadow-card hover:border-primary/30'
-              }`}
-              style={{ animationDelay: `${index * 100}ms` }}
+        <ul className="mt-8 border-t">
+          {filtered.map((credential) => (
+            <li
+              key={credential.name}
+              className="grid gap-x-10 gap-y-1 border-b py-4 md:grid-cols-[6rem_1fr_auto] md:items-baseline"
             >
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div className={`p-3 rounded-full ${
-                    role === 'ai-engineer'
-                      ? 'bg-accent/15 group-hover:bg-accent/25 group-hover:shadow-ai-glow'
-                      : 'bg-primary/10 group-hover:bg-primary/20'
-                  }`}>
-                    <Award className={`h-6 w-6 ${role === 'ai-engineer' ? 'text-accent' : 'text-primary'}`} />
-                  </div>
-                  <Badge 
-                    variant="secondary" 
-                    className={`${
-                      role === 'ai-engineer'
-                        ? 'bg-accent/15 text-accent border-accent/30'
-                        : 'bg-primary/10 text-primary border-primary/20'
-                    }`}
-                  >
-                    {cert.status}
-                  </Badge>
-                </div>
-                
-                <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                  {cert.name}
-                </h3>
-                
-                <p className="text-sm text-muted-foreground mb-3">
-                  {cert.issuer}
-                </p>
-
-                <div className="flex items-center text-sm text-muted-foreground mb-4">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  <span>{cert.date}</span>
-                </div>
-
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-xs text-muted-foreground mb-2">Skills Covered:</p>
-                    <div className="flex flex-wrap gap-1">
-                      {cert.skills.map((skill, skillIndex) => (
-                        <Badge 
-                          key={skillIndex}
-                          variant="outline" 
-                          className={`text-xs ${
-                            role === 'ai-engineer'
-                              ? 'border-accent/20 text-accent/80 hover:border-accent/40'
-                              : 'border-primary/20 text-primary/80 hover:border-primary/40'
-                          }`}
-                        >
-                          {skill}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div className="pt-2 border-t border-border/50">
-                    <p className="text-xs text-muted-foreground">
-                      Credential ID: <span className="font-mono">{cert.credentialId}</span>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-4 pt-4 border-t border-border/30">
-                  <button className={`flex items-center text-sm transition-colors ${
-                    role === 'ai-engineer'
-                      ? 'text-accent hover:text-accent/80'
-                      : 'text-primary hover:text-primary/80'
-                  }`}>
-                    <ExternalLink className="h-4 w-4 mr-2" />
-                    <span>Verify Certificate</span>
-                  </button>
-                </div>
-              </CardContent>
-            </Card>
+              <span className="font-mono text-sm tabular-nums text-faint">{credential.date}</span>
+              <div>
+                <p>{credential.name}</p>
+                <p className="mt-0.5 text-sm text-muted-foreground">{credential.issuer}</p>
+              </div>
+              {credential.credentialId && (
+                <span className="font-mono text-xs text-faint">ID {credential.credentialId}</span>
+              )}
+            </li>
           ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <p className="text-muted-foreground">
-            All certifications are current and verified. Click on any certificate to view credentials.
-          </p>
-        </div>
+        </ul>
       </div>
     </section>
   );

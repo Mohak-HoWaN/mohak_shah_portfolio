@@ -1,109 +1,118 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Database, Bot, Menu, X } from "lucide-react";
+import { Menu, Volume2, VolumeX, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { type Role, roleLabels } from "@/lib/role";
 
 interface HeaderProps {
-  role: "data-scientist" | "ai-engineer";
-  onRoleChange: (role: "data-scientist" | "ai-engineer") => void;
+  role: Role;
+  onRoleChange: (role: Role) => void;
+  sound: boolean;
+  onSoundChange: (sound: boolean) => void;
 }
 
-const Header = ({ role, onRoleChange }: HeaderProps) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const navLinks = [
+  { href: "#work", label: "Work" },
+  { href: "#about", label: "About" },
+  { href: "#credentials", label: "Credentials" },
+  { href: "#contact", label: "Contact" },
+];
+
+const LensSwitch = ({
+  role,
+  onRoleChange,
+  className,
+}: Pick<HeaderProps, "role" | "onRoleChange"> & { className?: string }) => (
+  <div role="group" aria-label="Portfolio lens" className={cn("flex rounded-md border p-0.5", className)}>
+    {(Object.keys(roleLabels) as Role[]).map((key) => (
+      <button
+        key={key}
+        type="button"
+        aria-pressed={role === key}
+        onClick={() => onRoleChange(key)}
+        className={cn(
+          "flex h-11 items-center justify-center gap-2 whitespace-nowrap rounded-[5px] px-3 text-sm transition-colors lg:h-8",
+          role === key ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground"
+        )}
+      >
+        <span className={cn("size-1.5 rounded-full", role === key ? "bg-primary" : "bg-border")} />
+        {roleLabels[key]}
+      </button>
+    ))}
+  </div>
+);
+
+const Header = ({ role, onRoleChange, sound, onSoundChange }: HeaderProps) => {
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center space-x-2">
-            {role === "data-scientist" ? (
-              <Database className="h-8 w-8 text-primary" />
-            ) : (
-              <Bot className="h-8 w-8 text-primary" />
-            )}
-            <span className="text-xl font-bold text-foreground">Portfolio</span>
-          </div>
+    <header
+      className={cn(
+        "fixed top-0 z-50 w-full border-b",
+        menuOpen ? "bg-background" : "bg-background/85 backdrop-blur-md"
+      )}
+    >
+      <div className="wrap flex h-14 items-center justify-between gap-6">
+        <a href="#top" className="rounded-sm font-medium">
+          Mohak Shah
+        </a>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <a href="#about" className="text-muted-foreground hover:text-primary transition-colors">
-              About
+        <nav className="hidden items-center gap-7 lg:flex" aria-label="Sections">
+          {navLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="rounded-sm text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {link.label}
             </a>
-            <a href="#projects" className="text-muted-foreground hover:text-primary transition-colors">
-              Projects
-            </a>
-            <a href="#certificates" className="text-muted-foreground hover:text-primary transition-colors">
-              Certificates
-            </a>
-            <a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">
-              Contact
-            </a>
-          </nav>
+          ))}
+        </nav>
 
-          {/* Role Toggle */}
-          <div className="hidden md:flex items-center space-x-3">
-            <span className={`text-sm ${role === "data-scientist" ? "text-primary" : "text-muted-foreground"}`}>
-              Data Scientist
-            </span>
-            <Switch
-              checked={role === "ai-engineer"}
-              onCheckedChange={(checked) => 
-                onRoleChange(checked ? "ai-engineer" : "data-scientist")
-              }
-            />
-            <span className={`text-sm ${role === "ai-engineer" ? "text-primary" : "text-muted-foreground"}`}>
-              AI Engineer
-            </span>
-          </div>
+        <div className="flex items-center gap-2">
+          <LensSwitch role={role} onRoleChange={onRoleChange} className="hidden lg:flex" />
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          {/* Click sounds only exist with a mouse */}
+          <button
+            type="button"
+            className="hidden size-11 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground lg:size-9 [@media(hover:hover)_and_(pointer:fine)]:flex"
+            aria-pressed={sound}
+            aria-label="Click sound"
+            onClick={() => onSoundChange(!sound)}
           >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </Button>
-        </div>
+            {sound ? <Volume2 className="size-4" strokeWidth={1.5} /> : <VolumeX className="size-4" strokeWidth={1.5} />}
+          </button>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-border">
-            <nav className="flex flex-col space-y-4 mt-4">
-              <a href="#about" className="text-muted-foreground hover:text-primary transition-colors">
-                About
-              </a>
-              <a href="#projects" className="text-muted-foreground hover:text-primary transition-colors">
-                Projects
-              </a>
-              <a href="#certificates" className="text-muted-foreground hover:text-primary transition-colors">
-                Certificates
-              </a>
-              <a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">
-                Contact
-              </a>
-              
-              {/* Mobile Role Toggle */}
-              <div className="flex items-center space-x-3 pt-4 border-t border-border">
-                <span className={`text-sm ${role === "data-scientist" ? "text-primary" : "text-muted-foreground"}`}>
-                  Data Scientist
-                </span>
-                <Switch
-                  checked={role === "ai-engineer"}
-                  onCheckedChange={(checked) => 
-                    onRoleChange(checked ? "ai-engineer" : "data-scientist")
-                  }
-                />
-                <span className={`text-sm ${role === "ai-engineer" ? "text-primary" : "text-muted-foreground"}`}>
-                  AI Engineer
-                </span>
-              </div>
-            </nav>
-          </div>
-        )}
+          <button
+            type="button"
+            className="-mr-2 flex size-11 items-center justify-center rounded-md text-muted-foreground lg:hidden"
+            aria-expanded={menuOpen}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <X className="size-5" strokeWidth={1.5} /> : <Menu className="size-5" strokeWidth={1.5} />}
+          </button>
+        </div>
       </div>
+
+      {menuOpen && (
+        <div className="border-t lg:hidden">
+          <div className="wrap flex flex-col py-4">
+            <nav className="flex flex-col" aria-label="Sections">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="flex h-11 items-center rounded-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+            <LensSwitch role={role} onRoleChange={onRoleChange} className="mt-4 flex-col sm:flex-row sm:[&>button]:flex-1" />
+          </div>
+        </div>
+      )}
     </header>
   );
 };

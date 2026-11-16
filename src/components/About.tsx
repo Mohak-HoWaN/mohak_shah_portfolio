@@ -1,149 +1,91 @@
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { GraduationCap, Briefcase, Award, TrendingUp } from "lucide-react";
+import { type Role } from "@/lib/role";
 
 interface AboutProps {
-  role: "data-scientist" | "ai-engineer";
+  role: Role;
 }
 
-const About = ({ role }: AboutProps) => {
-  const roleData = {
-    "data-scientist": {
-      title: "About Me - Data Scientist",
-      description: "With over 5 years of experience in data science, I specialize in extracting meaningful insights from complex datasets. My expertise spans across statistical modeling, machine learning, and data visualization, helping organizations make data-driven decisions that drive growth and innovation.",
-      achievements: [
-        { icon: TrendingUp, title: "20+ ML Models", description: "Deployed in production" },
-        { icon: Award, title: "95% Accuracy", description: "Average model performance" },
-        { icon: Briefcase, title: "50+ Projects", description: "Successfully completed" },
-        { icon: GraduationCap, title: "PhD Statistics", description: "Advanced degree" }
-      ],
-      experience: [
-        "Advanced Statistical Analysis & Hypothesis Testing",
-        "Predictive Modeling & Time Series Forecasting",
-        "A/B Testing & Experimentation Design",
-        "Data Pipeline Architecture & ETL Processes",
-        "Business Intelligence & Dashboard Development"
-      ]
-    },
-    "ai-engineer": {
-      title: "About Me - AI Engineer",
-      description: "As an AI Engineer with 4+ years of experience, I bridge the gap between research and production by building scalable AI systems. I specialize in deep learning, natural language processing, and computer vision, creating intelligent solutions that enhance user experiences and automate complex tasks.",
-      achievements: [
-        { icon: TrendingUp, title: "15+ AI Systems", description: "Deployed at scale" },
-        { icon: Award, title: "99.5% Uptime", description: "Production reliability" },
-        { icon: Briefcase, title: "30+ Models", description: "In production" },
-        { icon: GraduationCap, title: "MS AI/ML", description: "Specialized degree" }
-      ],
-      experience: [
-        "Deep Learning Architecture Design & Implementation",
-        "Natural Language Processing & Large Language Models",
-        "Computer Vision & Image Recognition Systems",
-        "MLOps & Model Deployment Automation",
-        "AI System Optimization & Performance Tuning"
-      ]
-    }
-  };
+const roleData = {
+  "cv-engineer": {
+    paragraphs: [
+      "Most of my work sits between a trained detector and the device it has to run on. For JonaRu that means collecting and labelling product images, training YOLO models, exporting them to ONNX, OpenVINO and NCNN, and checking each export against the original weights.",
+      "At Agrex.ai I trained YOLO and RF-DETR models for safety monitoring, built a throwing-detection pipeline with RF-DETR and ByteTrack that reached up to 85% recall, and benchmarked it on TensorRT and Triton across GStreamer CCTV pipelines.",
+    ],
+  },
+  "data-scientist": {
+    paragraphs: [
+      "I like data work that ends in something a person can use. Health Care Center started as a notebook comparing classifiers on symptom data and became a Flask app with voice input and an offline build.",
+      "Alongside modelling I have done analytics training and internships in SQL, Python and Power BI, including a live project on social media user data.",
+    ],
+  },
+};
 
-  const currentRole = roleData[role];
+const facts = [
+  {
+    label: "Education",
+    lines: ["B.Tech, Artificial Intelligence and Data Science"],
+    detail: "Sankalchand Patel University, Visnagar. 2023 to 2027",
+  },
+  {
+    label: "Now",
+    lines: ["Team lead, JonaRu"],
+    detail: "Retail automation funded under Gujarat's Student Startup and Innovation Policy (SSIP)",
+  },
+  {
+    label: "Experience",
+    lines: [
+      "Computer Vision Intern, Agrex.ai, Delhi, 2026",
+      "AI/ML Intern, Micro Information Technology Services, 2025",
+      "Artificial Intelligence Intern, MindSparc, 2024",
+      "Data Analytics virtual internship, Trainity, 2025",
+    ],
+  },
+  { label: "Based in", lines: ["Mehsana, Gujarat, India"] },
+];
 
-  React.useEffect(() => {
-    document.documentElement.setAttribute('data-role', role);
-  }, [role]);
+const toolkit = [
+  { label: "Vision", items: ["YOLO", "RF-DETR", "ByteTrack", "OpenCV", "ONNX Runtime", "OpenVINO", "NCNN", "INT8 and FP16 quantization"] },
+  { label: "ML and data", items: ["PyTorch", "scikit-learn", "pandas", "NumPy", "SQL", "Power BI"] },
+  { label: "Serving", items: ["TensorRT", "Triton Inference Server", "GStreamer", "FastAPI", "Flask", "Docker", "Raspberry Pi"] },
+  { label: "Web", items: ["TypeScript", "React", "Next.js"] },
+];
 
-  return (
-    <section id="about" className={`py-20 ${role === 'ai-engineer' ? 'bg-muted/15' : 'bg-muted/20'}`}>
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-foreground mb-4 animate-fade-in">
-            {currentRole.title}
-          </h2>
-          <div className="w-24 h-1 bg-gradient-primary mx-auto animate-fade-in"></div>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Description */}
-          <div className="animate-slide-in">
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-              {currentRole.description}
-            </p>
-
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-foreground mb-4">Key Expertise:</h3>
-              {currentRole.experience.map((item, index) => (
-                <div key={index} className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-3 flex-shrink-0"></div>
-                  <span className="text-muted-foreground">{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Achievements Grid */}
-          <div className="grid grid-cols-2 gap-6 animate-fade-in">
-            {currentRole.achievements.map((achievement, index) => (
-              <Card 
-                key={index} 
-                className={`backdrop-blur-sm transition-all duration-300 group ${
-                  role === 'ai-engineer'
-                    ? 'bg-card/30 border-border/30 hover:bg-card/60 hover:shadow-ai-glow hover:border-primary/30'
-                    : 'bg-card/50 border-border/50 hover:bg-card/80 hover:shadow-card'
-                }`}
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <CardContent className="p-6 text-center">
-                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full mb-4 transition-colors ${
-                    role === 'ai-engineer'
-                      ? 'bg-primary/15 group-hover:bg-primary/25 group-hover:shadow-ai-glow'
-                      : 'bg-primary/10 group-hover:bg-primary/20'
-                  }`}>
-                    <achievement.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <h4 className="text-lg font-semibold text-foreground mb-2">
-                    {achievement.title}
-                  </h4>
-                  <p className="text-sm text-muted-foreground">
-                    {achievement.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Skills Section */}
-        <div className="mt-16 text-center">
-          <h3 className="text-2xl font-semibold text-foreground mb-8">Core Technologies</h3>
-          <div className="flex flex-wrap justify-center gap-3">
-            {role === "data-scientist" && (
-              <>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">Python</Badge>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">R</Badge>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">SQL</Badge>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">Pandas</Badge>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">Scikit-learn</Badge>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">Tableau</Badge>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">Apache Spark</Badge>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">Docker</Badge>
-              </>
-            )}
-            {role === "ai-engineer" && (
-              <>
-                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">PyTorch</Badge>
-                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">TensorFlow</Badge>
-                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">Transformers</Badge>
-                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">LangChain</Badge>
-                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">Kubernetes</Badge>
-                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">MLflow</Badge>
-                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">FastAPI</Badge>
-                <Badge variant="secondary" className="bg-primary/15 text-primary border-primary/30 hover:shadow-ai-glow transition-shadow">AWS</Badge>
-              </>
-            )}
-          </div>
+const About = ({ role }: AboutProps) => (
+  <section id="about" className="border-t py-20 md:py-28">
+    <div className="wrap grid gap-12 lg:grid-cols-12 lg:gap-10">
+      <div className="lg:col-span-5">
+        <h2 className="font-display text-4xl tracking-tight md:text-6xl">About</h2>
+        <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
+          {roleData[role].paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
         </div>
       </div>
-    </section>
-  );
-};
+
+      <div className="lg:col-span-7">
+        <dl className="border-t">
+          {facts.map((fact) => (
+            <div key={fact.label} className="grid gap-2 border-b py-5 sm:grid-cols-[8rem_1fr] sm:gap-6">
+              <dt className="text-sm text-faint">{fact.label}</dt>
+              <dd className="space-y-1">
+                {fact.lines.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+                {fact.detail && <p className="text-muted-foreground">{fact.detail}</p>}
+              </dd>
+            </div>
+          ))}
+          {toolkit.map((group) => (
+            <div key={group.label} className="grid gap-2 border-b py-5 sm:grid-cols-[8rem_1fr] sm:gap-6">
+              <dt className="text-sm text-faint">{group.label}</dt>
+              <dd className="font-mono text-[13px] leading-relaxed text-muted-foreground">
+                {group.items.join(" · ")}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  </section>
+);
 
 export default About;

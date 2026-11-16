@@ -1,255 +1,251 @@
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Github, Filter, Clock, CheckCircle } from "lucide-react";
+import { type CSSProperties, Fragment, type ReactNode } from "react";
+import { ArrowUpRight } from "lucide-react";
+import HeatReveal from "@/components/HeatReveal";
+import LatencyChart from "@/components/LatencyChart";
+import ScanZoneReplay from "@/components/ScanZoneReplay";
+import PromptifyReplay from "@/components/PromptifyReplay";
+import Trainity from "@/components/Trainity";
+import { useScrollProgress } from "@/hooks/use-scroll-progress";
+import { type Role } from "@/lib/role";
 
 interface ProjectsProps {
-  role: "data-scientist" | "ai-engineer";
+  role: Role;
 }
 
-const Projects = ({ role }: ProjectsProps) => {
-  const [activeFilter, setActiveFilter] = useState("all");
+interface Project {
+  title: string;
+  field: "Computer vision" | "Data science" | "AI engineering";
+  role: Role;
+  status: string;
+  description: string;
+  context: string;
+  stack: string[];
+  links: { label: string; href: string }[];
+  // Stages the project moves data through; they light up as the row scrolls in
+  pipeline?: string[];
+  image?: { src: string; alt: string };
+  // A coded visual in place of an image
+  visual?: ReactNode;
+}
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-role', role);
-  }, [role]);
+const projects: Project[] = [
+  {
+    title: "JonaRu",
+    field: "Computer vision",
+    role: "cv-engineer",
+    status: "SSIP-funded, 2025 to present",
+    description:
+      "Camera-based checkout for neighbourhood stores. A YOLO detector recognises packaged products, a ByteTrack-style tracker follows them, and the bill is the stable count of each product inside the scan zone, so an item is added when it settles in the zone and removed when it leaves. I lead the team and own the vision pipeline; moving it from a custom CNN to YOLO raised recognition precision from 78% to 94%.",
+    context: "Student Startup and Innovation Policy (SSIP), Gujarat, with grant funding awarded twice. Built for a Raspberry Pi 5.",
+    stack: ["YOLO", "ByteTrack", "ONNX Runtime", "OpenVINO", "NCNN", "FastAPI", "Next.js", "Docker"],
+    links: [
+      { label: "Product site", href: "https://aiot.shahonthefloor.workers.dev/" },
+      { label: "GitHub", href: "https://github.com/TeamFuture635542/AIOT" },
+    ],
+    pipeline: ["Camera", "Detect", "Track", "Count in zone", "Bill"],
+    visual: <ScanZoneReplay />,
+  },
+  {
+    title: "EdgeBench",
+    field: "Computer vision",
+    role: "cv-engineer",
+    status: "Open source",
+    description:
+      "A bench for edge deployment decisions. Upload a PyTorch detector, convert it to ONNX, OpenVINO and NCNN at different precisions, benchmark every variant on each device, and read latency against accuracy drift through one shared decode path.",
+    context: "Grew out of JonaRu's deployment work: one place to compare every export before it ships to a device.",
+    stack: ["FastAPI", "SQLModel", "SQLite", "React", "TypeScript", "ONNX Runtime", "OpenVINO", "NCNN"],
+    links: [{ label: "GitHub", href: "https://github.com/Mohak-HoWaN/edgebench" }],
+    pipeline: ["Upload .pt", "Convert", "Benchmark", "Compare"],
+    visual: <LatencyChart />,
+  },
+  {
+    title: "Promptify",
+    field: "AI engineering",
+    role: "cv-engineer",
+    status: "AWS AI for Bharat",
+    description:
+      "A layer between you and the LLM. It scores a prompt, restructures it, recommends a model and estimates the cost before anything is sent. It ships as a web dashboard, a browser extension for ChatGPT, Claude and Gemini, and an MCP server for IDEs.",
+    context: "Started at the AWS AI for Bharat hackathon and kept going as a product.",
+    stack: ["TypeScript", "Node.js", "Express", "PostgreSQL", "Redis", "MCP", "Manifest V3"],
+    links: [],
+    pipeline: ["Prompt", "Score", "Rewrite", "Pick model", "Send"],
+    visual: <PromptifyReplay />,
+  },
+  {
+    title: "Health Care Center",
+    field: "Data science",
+    role: "data-scientist",
+    status: "Live",
+    description:
+      "Symptom checker that predicts a likely condition with an SVM classifier, then returns medication, diet, workout and precaution guidance. Symptoms can be typed or spoken, and an offline build covers low-connectivity use.",
+    context: "Trained on 132 symptoms across 41 conditions.",
+    stack: ["Python", "scikit-learn", "pandas", "Flask"],
+    links: [
+      { label: "Live app", href: "https://health-care-center-k3gk.onrender.com/" },
+      { label: "GitHub", href: "https://github.com/Mohak-HoWaN/Health-Care-Center" },
+    ],
+    pipeline: ["Symptoms", "SVM classifier", "Condition", "Guidance"],
+    image: {
+      src: "/project_images/health-care-center-result.webp",
+      alt: "Health Care Center result for itching, skin rash and nodal skin eruptions: the predicted condition is fungal infection",
+    },
+  },
+  {
+    title: "Smart Waste Minimizer",
+    field: "Computer vision",
+    role: "cv-engineer",
+    status: "HackNUthon 6.0",
+    description:
+      "Restaurant inventory tool that flags food before it spoils. YOLOv5 finds items in a photo, a dual-head MobileNetV2 classifies item type and freshness in one pass, and Grad-CAM heatmaps show which regions drove the call. A Next.js dashboard tracks inventory, orders and waste.",
+    context: "Built for the Petpooja track at Nirma University.",
+    stack: ["PyTorch", "YOLOv5", "MobileNetV2", "Grad-CAM", "Flask", "Next.js"],
+    links: [{ label: "Demo video", href: "https://youtu.be/F4aPVs2v1uY" }],
+    pipeline: ["Photo", "YOLOv5", "MobileNetV2", "Grad-CAM"],
+    visual: <HeatReveal />,
+  },
+  {
+    title: "Fitness Recommendation API",
+    field: "Data science",
+    role: "data-scientist",
+    status: "Deployed API",
+    description:
+      "REST API that suggests a workout type and predicts daily calorie and water intake from BMI, step count and activity level. Nearest-neighbour matching for workouts, random forests for the two predictions.",
+    context: "Odoo x Charusat hackathon.",
+    stack: ["Python", "scikit-learn", "Flask", "Render"],
+    links: [{ label: "GitHub", href: "https://github.com/Mohak-HoWaN/fitness_recommendation_api" }],
+  },
+];
 
-  const dataScientistProjects = [
-    {
-      id: 1,
-      title: "Health Care Center",
-      description: "Personalized Medical Recommendation System with Machine Learning Model with 78% Accuracy",
-      image: "/project_images/health-care-center-new.png",
-      technologies: ["Python", "Scikit-learn", "Pandas", "SVM"],
-      category: "Machine Learning",
-      status: "completed",
-      github: "https://github.com/Mohak-HoWaN/Health-Care-Center",
-      demo: "https://health-care-center-k3gk.onrender.com/"
-    },
-    {
-      id: 2,
-      title: "Sales Forecasting Dashboard",
-      description: "Interactive Tableau dashboard for time series forecasting that increased forecast accuracy by 25%.",
-      image: "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=400&h=200&fit=crop",
-      technologies: ["R", "Tableau", "SQL", "ARIMA"],
-      category: "Analytics",
-      status: "completed",
-      github: "#",
-      demo: "#"
-    },
-    {
-      id: 3,
-      title: "A/B Testing Framework",
-      description: "Statistical framework for A/B testing that standardized experimentation across the organization.",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=200&fit=crop",
-      technologies: ["Python", "Scipy", "Statsmodels", "Plotly"],
-      category: "Statistics",
-      status: "ongoing",
-      github: "#",
-      demo: "#"
-    },
-    {
-      id: 4,
-      title: "Deep Learning Model Optimization",
-      description: "Developing advanced neural network architectures for improved performance in computer vision tasks.",
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=200&fit=crop",
-      technologies: ["PyTorch", "CUDA", "TensorBoard", "Optuna"],
-      category: "Deep Learning",
-      status: "ongoing",
-      github: "#",
-      demo: "#"
-    }
-  ];
+const ProjectLinks = ({ project }: { project: Project }) => (
+  <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+    {project.links.map((link) => (
+      <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="link">
+        {link.label}
+        <ArrowUpRight className="size-3.5 text-faint" strokeWidth={1.5} />
+      </a>
+    ))}
+  </div>
+);
 
-  const aiEngineerProjects = [
-    {
-      id: 1,
-      title: "Intelligent Document Processing",
-      description: "AI system using OCR and NLP to extract and classify information from documents with 99% accuracy.",
-      image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=200&fit=crop",
-      technologies: ["PyTorch", "Transformers", "FastAPI", "Docker"],
-      category: "NLP",
-      status: "completed",
-      github: "#",
-      demo: "#"
-    },
-    {
-      id: 2,
-      title: "Real-time Object Detection",
-      description: "Computer vision system for real-time object detection and tracking in video streams using YOLO.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop",
-      technologies: ["TensorFlow", "OpenCV", "YOLO", "Kubernetes"],
-      category: "Computer Vision",
-      status: "completed",
-      github: "#",
-      demo: "#"
-    },
-    {
-      id: 3,
-      title: "Conversational AI Chatbot",
-      description: "Advanced chatbot using large language models for customer support automation.",
-      image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=400&h=200&fit=crop",
-      technologies: ["LangChain", "OpenAI", "Vector DB", "Streamlit"],
-      category: "LLM",
-      status: "ongoing",
-      github: "#",
-      demo: "#"
-    },
-    {
-      id: 4,
-      title: "Multi-Modal AI Assistant",
-      description: "Building an advanced AI assistant capable of processing text, images, and audio for comprehensive user interactions.",
-      image: "https://images.unsplash.com/photo-1677756119517-756a188d2d94?w=400&h=200&fit=crop",
-      technologies: ["GPT-4", "Whisper", "CLIP", "React"],
-      category: "Multi-Modal AI",
-      status: "ongoing",
-      github: "#",
-      demo: "#"
-    }
-  ];
-
-  const projects = role === "data-scientist" ? dataScientistProjects : aiEngineerProjects;
-  const categories = ["all", ...Array.from(new Set(projects.map(p => p.category)))];
-
-  const filteredProjects = activeFilter === "all" 
-    ? projects 
-    : projects.filter(project => project.category === activeFilter);
+// Follows its own scroll position rather than the row's: it sits below the visual,
+// so on the row's progress the line was full before the pipeline came into view.
+const Pipeline = ({ stages }: { stages: string[] }) => {
+  const ref = useScrollProgress<HTMLOListElement>();
 
   return (
-    <section id="projects" className="py-20 bg-background">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-foreground mb-4 animate-fade-in">
-            Featured Projects
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8 animate-fade-in">
-            Showcasing my expertise through real-world projects and implementations
-          </p>
-          <div className="w-24 h-1 bg-gradient-primary mx-auto animate-fade-in"></div>
+    <ol ref={ref} className="pipeline mt-6" style={{ "--n": stages.length } as CSSProperties}>
+      {stages.map((stage, index) => (
+        <li key={stage} style={{ "--i": index } as CSSProperties}>
+          {stage}
+        </li>
+      ))}
+    </ol>
+  );
+};
+
+const FeaturedProject = ({ project }: { project: Project }) => {
+  const ref = useScrollProgress<HTMLElement>();
+
+  return (
+    <article ref={ref} className="grid gap-8 lg:grid-cols-12 lg:gap-10">
+      <div className="lg:col-span-7">
+        <div className="relative">
+          <div className="relative overflow-hidden rounded-lg border bg-card">
+            {project.visual ?? (
+              <img
+                src={project.image!.src}
+                alt={project.image!.alt}
+                width={1600}
+                height={1000}
+                loading="lazy"
+                className="aspect-[16/10] w-full object-cover object-top"
+              />
+            )}
+            <span className="frame-tag">{project.field}</span>
+          </div>
+          {/* Viewfinder corners that close in on the frame as it scrolls into view */}
+          <div className="lock" aria-hidden>
+            <span className="left-0 top-0 border-l border-t" />
+            <span className="right-0 top-0 border-r border-t" />
+            <span className="bottom-0 left-0 border-b border-l" />
+            <span className="bottom-0 right-0 border-b border-r" />
+          </div>
         </div>
 
-        {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {categories.map((category) => (
-            <Button
-              key={category}
-              variant={activeFilter === category ? "default" : "outline"}
-              onClick={() => setActiveFilter(category)}
-              className="capitalize"
-            >
-              <Filter className="mr-2 h-4 w-4" />
-              {category}
-            </Button>
+        {project.pipeline && <Pipeline stages={project.pipeline} />}
+      </div>
+
+      <div className="flex flex-col lg:col-span-5">
+        <p className="font-mono text-sm text-faint">{project.status}</p>
+        <h3 className="mt-2 font-display text-3xl tracking-tight md:text-4xl">{project.title}</h3>
+        <p className="mt-4 leading-relaxed text-muted-foreground">{project.description}</p>
+
+        <dl className="mt-6 space-y-3 border-t pt-6 text-sm">
+          <div className="grid grid-cols-[5rem_1fr] gap-4">
+            <dt className="text-faint">Context</dt>
+            <dd className="text-muted-foreground">{project.context}</dd>
+          </div>
+          <div className="grid grid-cols-[5rem_1fr] gap-4">
+            <dt className="text-faint">Stack</dt>
+            <dd className="font-mono text-[13px] leading-relaxed text-muted-foreground">{project.stack.join(" · ")}</dd>
+          </div>
+        </dl>
+
+        <div className="mt-6 lg:mt-auto lg:pt-6">
+          <ProjectLinks project={project} />
+        </div>
+      </div>
+    </article>
+  );
+};
+
+const Projects = ({ role }: ProjectsProps) => {
+  // The chosen lens leads; sort is stable so the order within each group holds
+  const ordered = [...projects].sort((a, b) => Number(b.role === role) - Number(a.role === role));
+  const featured = ordered.filter((project) => project.image || project.visual);
+  const compact = ordered.filter((project) => !project.image && !project.visual);
+
+  return (
+    <section id="work" className="border-t py-20 md:py-28">
+      <div className="wrap">
+        <h2 className="font-display text-4xl tracking-tight md:text-6xl">Selected work</h2>
+        <p className="mt-4 max-w-xl text-muted-foreground">
+          Six projects across computer vision, AI engineering and data science, and a folder of analytics case studies.
+          The lens you pick sets the order.
+        </p>
+
+        <div className="mt-14 space-y-16 md:mt-16 md:space-y-24">
+          {featured.map((project) => (
+            <Fragment key={project.title}>
+              <FeaturedProject project={project} />
+              {/* The analytics case studies sit under the other data science work */}
+              {project.title === "Health Care Center" && <Trainity />}
+            </Fragment>
           ))}
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
-            <Card 
-              key={project.id}
-              className={`backdrop-blur-sm transition-all duration-300 group overflow-hidden animate-fade-in ${
-                role === 'ai-engineer'
-                  ? `bg-card/30 hover:bg-card/60 hover:shadow-ai-glow ${
-                      project.status === 'ongoing' 
-                        ? 'border-accent/60 shadow-ai-pulse shadow-lg' 
-                        : 'border-border/30 hover:border-primary/30'
-                    }`
-                  : `bg-card/50 hover:bg-card/80 hover:shadow-card ${
-                      project.status === 'ongoing' 
-                        ? 'border-accent/50 shadow-accent/20 shadow-lg' 
-                        : 'border-border/50'
-                    }`
-              }`}
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              {/* Project Image */}
-              <div className="relative overflow-hidden">
-                <img 
-                  src={project.image} 
-                  alt={project.title}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center ${
-                  role === 'ai-engineer' ? 'bg-primary/30' : 'bg-primary/20'
-                }`}>
-                  <div className="flex space-x-4">
-                    <Button size="sm" variant="secondary" asChild>
-                      <a href={project.github} target="_blank" rel="noopener noreferrer">
-                        <Github className="h-4 w-4" />
-                      </a>
-                    </Button>
-                    <Button size="sm" variant="secondary" asChild>
-                      <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="h-4 w-4" />
-                      </a>
-                    </Button>
-                  </div>
+        <div className="mt-16 border-t md:mt-24">
+          {compact.map((project) => (
+            <article key={project.title} className="grid gap-4 border-b py-8 lg:grid-cols-12 lg:gap-10">
+              <div className="lg:col-span-4">
+                <h3 className="font-display text-2xl tracking-tight">{project.title}</h3>
+                <p className="mt-2 font-mono text-sm text-faint">
+                  {project.field} · {project.status}
+                </p>
+              </div>
+              <div className="lg:col-span-8">
+                <p className="leading-relaxed text-muted-foreground">
+                  {project.description} {project.context}
+                </p>
+                <p className="mt-4 font-mono text-[13px] leading-relaxed text-muted-foreground">
+                  {project.stack.join(" · ")}
+                </p>
+                <div className="mt-4">
+                  <ProjectLinks project={project} />
                 </div>
               </div>
-
-              <CardHeader>
-                <div className="flex items-center justify-between mb-2">
-                  <CardTitle className="text-lg text-foreground group-hover:text-primary transition-colors">
-                    {project.title}
-                  </CardTitle>
-                  <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-                    {project.category}
-                  </Badge>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Badge 
-                    variant={project.status === 'ongoing' ? 'default' : 'outline'}
-                    className={`text-xs ${
-                      project.status === 'ongoing' 
-                        ? 'bg-accent text-accent-foreground border-accent animate-pulse' 
-                        : 'bg-success/10 text-success border-success/30'
-                    }`}
-                  >
-                    {project.status === 'ongoing' ? (
-                      <>
-                        <Clock className="mr-1 h-3 w-3" />
-                        In Progress
-                      </>
-                    ) : (
-                      <>
-                        <CheckCircle className="mr-1 h-3 w-3" />
-                        Completed
-                      </>
-                    )}
-                  </Badge>
-                </div>
-              </CardHeader>
-
-              <CardContent>
-                <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
-                  {project.description}
-                </p>
-
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2">
-                  {project.technologies.map((tech) => (
-                    <Badge 
-                      key={tech} 
-                      variant="outline" 
-                      className="text-xs bg-muted/50 hover:bg-primary/10 hover:border-primary/30 transition-colors"
-                    >
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            </article>
           ))}
-        </div>
-
-        {/* View More Button */}
-        <div className="text-center mt-12">
-          <Button variant="outline" size="lg" className="group">
-            <Github className="mr-2 h-5 w-5 group-hover:animate-bounce" />
-            View All Projects on GitHub
-          </Button>
         </div>
       </div>
     </section>

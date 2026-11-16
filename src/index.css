@@ -2,137 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Portfolio Design System - Data Science & AI Engineering Theme */
+/* One warm-neutral ramp, three text roles, one accent per lens. */
 
 @layer base {
   :root {
-    /* Base colors */
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    color-scheme: dark;
 
-    /* Card system */
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --background: 60 3% 6%;
+    --foreground: 60 9% 94%;
 
-    /* Interactive elements */
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --card: 60 3% 8%;
+    --card-foreground: 60 9% 94%;
 
-    /* Data Scientist Theme - Tech blue */
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 98%;
-    --primary-glow: 217 91% 70%;
+    --popover: 60 3% 8%;
+    --popover-foreground: 60 9% 94%;
 
-    /* Secondary - Purple accent */
-    --secondary: 270 95% 75%;
-    --secondary-foreground: 240 10% 3.9%;
+    /* Accent: detection-box lime for the computer vision lens */
+    --primary: 78 88% 60%;
+    --primary-foreground: 60 3% 6%;
 
-    /* Muted tones */
-    --muted: 240 5% 11%;
-    --muted-foreground: 240 5% 65%;
+    --secondary: 60 3% 12%;
+    --secondary-foreground: 60 9% 94%;
 
-    /* Accent - Cyan for highlights */
-    --accent: 180 100% 70%;
-    --accent-foreground: 240 10% 3.9%;
+    /* Text roles: foreground (primary), muted-foreground (secondary), faint (muted) */
+    --muted: 60 3% 10%;
+    --muted-foreground: 60 4% 68%;
+    --faint: 60 3% 52%;
 
-    /* Status colors */
-    --destructive: 0 84% 60%;
+    /* Hover surface for ghost and outline controls */
+    --accent: 60 3% 13%;
+    --accent-foreground: 60 9% 94%;
+
+    --destructive: 0 72% 58%;
     --destructive-foreground: 0 0% 98%;
-    --success: 120 100% 40%;
-    --warning: 45 100% 60%;
 
-    /* Interface elements */
-    --border: 240 6% 20%;
-    --input: 240 6% 20%;
-    --ring: 217 91% 60%;
+    --border: 60 3% 16%;
+    --input: 60 3% 20%;
+    --ring: 78 88% 60%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Portfolio-specific design tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--accent)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(240 10% 6%) 100%);
-    --shadow-glow: 0 0 40px hsl(var(--primary) / 0.3);
-    --shadow-card: 0 8px 32px hsl(240 10% 3.9% / 0.5);
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-display: "Instrument Serif";
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 60 3% 8%;
+    --sidebar-foreground: 60 9% 94%;
+    --sidebar-primary: 78 88% 60%;
+    --sidebar-primary-foreground: 60 3% 6%;
+    --sidebar-accent: 60 3% 13%;
+    --sidebar-accent-foreground: 60 9% 94%;
+    --sidebar-border: 60 3% 16%;
+    --sidebar-ring: 78 88% 60%;
   }
 
-  /* AI Engineer Theme */
-  :root[data-role="ai-engineer"] {
-    /* Electric cyan primary */
-    --primary: 180 100% 50%;
-    --primary-foreground: 240 10% 3.9%;
-    --primary-glow: 165 100% 45%;
-
-    /* Electric secondary */
-    --secondary: 190 85% 15%;
-    --secondary-foreground: 180 100% 90%;
-
-    /* AI-specific accent - Bright electric green */
-    --accent: 165 100% 45%;
-    --accent-foreground: 240 10% 3.9%;
-
-    /* Muted AI tones */
-    --muted: 190 85% 15%;
-    --muted-foreground: 180 50% 65%;
-    --border: 190 85% 15%;
-
-    /* AI-specific gradients and shadows */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--primary)));
-    --shadow-glow: 0 0 40px hsl(var(--primary) / 0.4);
-    --shadow-card: 0 8px 32px hsl(var(--primary) / 0.2);
-    
-    /* AI electric glow effects */
-    --ai-glow: 0 0 20px hsl(180 100% 50% / 0.5);
-    --ai-pulse: 0 0 40px hsl(165 100% 45% / 0.6);
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+  /* Data science lens */
+  :root[data-role="data-scientist"] {
+    --primary: 204 94% 68%;
+    --ring: 204 94% 68%;
   }
 }
 
@@ -141,24 +66,204 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Anchored sections clear the fixed header */
+  section[id] {
+    scroll-margin-top: 3.5rem;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a,
+  button {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  ::selection {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
   }
 }
 
-/* AI Theme Utility Classes */
-@layer utilities {
-  .shadow-ai-glow {
-    box-shadow: var(--ai-glow);
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-[1200px] px-6 md:px-8;
   }
 
-  .shadow-ai-pulse {
-    box-shadow: var(--ai-pulse);
-    animation: ai-pulse 2s infinite;
+  /* Inline text link: underline draws in on hover */
+  .link {
+    @apply -my-3 inline-flex items-center gap-1 rounded-sm py-3 text-foreground underline decoration-border decoration-1 underline-offset-4 transition-colors hover:decoration-primary;
   }
 
-  @keyframes ai-pulse {
-    0%, 100% { box-shadow: var(--ai-glow); }
-    50% { box-shadow: var(--ai-pulse); }
+  /* Detection-style label pinned to the corner of an image frame */
+  .frame-tag {
+    @apply absolute left-0 top-0 bg-primary px-2 py-1 font-mono text-xs text-primary-foreground;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Faint measurement grid behind the hero and the coded stages */
+.stage,
+.backdrop-grid {
+  background-image: linear-gradient(hsl(var(--foreground) / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--foreground) / 0.045) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.backdrop-grid {
+  background-size: 64px 64px;
+  mask-image: linear-gradient(to bottom, black 20%, transparent 95%);
+}
+
+/* Scroll-driven pieces. They read --p (0 to 1), which useScrollProgress sets on the project row;
+   without it they rest in their finished state. */
+
+/* Viewfinder corners that close in on a frame */
+.lock {
+  --lock: clamp(0, calc(var(--p, 1) * 2.5), 1);
+  position: absolute;
+  inset: calc(-7px - (1 - var(--lock)) * 20px);
+  opacity: var(--lock);
+  pointer-events: none;
+}
+
+.lock span {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: hsl(var(--primary));
+}
+
+/* Stages of a project's pipeline, lit left to right */
+.pipeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+  padding-top: 16px;
+  font-family: theme("fontFamily.mono");
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+@media (min-width: 640px) {
+  .pipeline {
+    font-size: 12px;
+  }
+}
+
+.pipeline::before,
+.pipeline::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: hsl(var(--border));
+}
+
+.pipeline::after {
+  background: hsl(var(--primary));
+  transform-origin: left;
+  transform: scaleX(var(--p, 1));
+}
+
+.pipeline li {
+  --on: clamp(0, calc((var(--p, 1) - var(--i) / var(--n)) * 14), 1);
+  position: relative;
+  padding-right: 8px;
+  overflow-wrap: anywhere;
+  opacity: calc(0.4 + var(--on) * 0.6);
+}
+
+.pipeline li::before {
+  content: "";
+  position: absolute;
+  top: -19px;
+  left: 0;
+  z-index: 1;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsl(var(--background));
+  transform: scale(var(--on));
+}
+
+/* Chart bars grow as the row scrolls in, one after another */
+.bar {
+  transform: scaleX(clamp(0, calc(var(--p, 1) * 2.2 - var(--i) * 0.14), 1));
+}
+
+/* Custom pointer (Cursor.tsx). The class is only added on devices with a mouse. */
+.custom-cursor,
+.custom-cursor * {
+  cursor: none !important;
+}
+
+.custom-cursor input,
+.custom-cursor textarea {
+  cursor: text !important;
+}
+
+.cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+
+.cursor-shape {
+  display: block;
+  translate: -50% -50%;
+  transition: scale 0.15s ease-out, opacity 0.15s;
+}
+
+.cursor[data-over="action"] .cursor-shape {
+  scale: 1.35;
+}
+
+/* Text fields keep the native caret */
+.cursor[data-over="text"] .cursor-shape {
+  opacity: 0;
+}
+
+/* The page grid, lit in the accent colour around the pointer. --mx and --my are page coordinates. */
+.spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  background-image: linear-gradient(hsl(var(--primary) / 0.45) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--primary) / 0.45) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(circle 260px at var(--mx, -999px) var(--my, -999px), black, transparent);
 }

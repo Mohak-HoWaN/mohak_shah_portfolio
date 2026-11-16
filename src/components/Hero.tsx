@@ -1,147 +1,88 @@
-import React from "react";
+import { lazy, Suspense } from "react";
+import { ArrowDown, ArrowUpRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ArrowDown, Download, Github, Linkedin, Mail, Twitter } from "lucide-react";
-import heroBackground from "@/assets/hero-bg.jpg";
+import { type Role, roleLabels, contact } from "@/lib/role";
+
+import ShutterSlides from "@/components/ShutterSlides";
+
+// three.js loads only when the stage is shown
+const CloudScene = lazy(() => import("@/components/three/CloudScene"));
 
 interface HeroProps {
-  role: "data-scientist" | "ai-engineer";
+  role: Role;
 }
 
+const roleData = {
+  "cv-engineer": {
+    headline: "Computer vision systems built for small, CPU‑only hardware",
+    description:
+      "I'm Mohak Shah, a final-year B.Tech student in AI and Data Science. I lead JonaRu, a camera-based checkout that detects the packaged products set in its scan zone and bills them, and I built real-time activity recognition for CCTV streams as a computer vision intern at Agrex.ai.",
+    Stage: ShutterSlides,
+  },
+  "data-scientist": {
+    headline: "Machine learning models, shipped as working apps and APIs",
+    description:
+      "I'm Mohak Shah, a final-year B.Tech student in AI and Data Science. I take a problem from raw data to a deployed service: a symptom-based health recommender running on Flask, a fitness recommendation API, and analytics work in SQL and Power BI.",
+    Stage: CloudScene,
+  },
+};
+
 const Hero = ({ role }: HeroProps) => {
-  const roleData = {
-    "data-scientist": {
-      title: "Data Scientist",
-      subtitle: "Turning Data into Insights",
-      description: "I transform complex data into actionable insights using statistical analysis, machine learning, and visualization to drive data-driven decision making.",
-      skills: ["Python", "R", "SQL", "Machine Learning", "Statistics", "Data Visualization"]
-    },
-    "ai-engineer": {
-      title: "AI Engineer",
-      subtitle: "Building Intelligent Systems",
-      description: "I design and deploy AI systems that solve real-world problems using deep learning, natural language processing, and computer vision technologies.",
-      skills: ["PyTorch", "TensorFlow", "MLOps", "Deep Learning", "NLP", "Computer Vision"]
-    }
-  };
-
-  const currentRole = roleData[role];
-
-  React.useEffect(() => {
-    document.documentElement.setAttribute('data-role', role);
-  }, [role]);
+  const { headline, description, Stage } = roleData[role];
 
   return (
-    <section 
-      className={`min-h-screen flex items-center justify-center relative overflow-hidden ${
-        role === 'ai-engineer' ? 'ai-theme' : 'ds-theme'
-      }`}
-      style={{
-        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9)), url(${heroBackground})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed'
-      }}
-    >
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className={`absolute top-20 left-10 w-72 h-72 rounded-full blur-3xl animate-pulse ${
-          role === 'ai-engineer' ? 'bg-primary/15 shadow-ai-glow' : 'bg-primary/10'
-        }`}></div>
-        <div className={`absolute bottom-20 right-10 w-96 h-96 rounded-full blur-3xl animate-pulse delay-1000 ${
-          role === 'ai-engineer' ? 'bg-accent/15 shadow-ai-pulse' : 'bg-secondary/10'
-        }`}></div>
-        <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full blur-3xl animate-pulse delay-500 ${
-          role === 'ai-engineer' ? 'bg-primary/10 shadow-ai-glow' : 'bg-accent/10'
-        }`}></div>
-        {role === 'ai-engineer' && (
-          <>
-            <div className="absolute top-10 right-1/4 w-32 h-32 bg-accent/20 rounded-full blur-2xl animate-ping"></div>
-            <div className="absolute bottom-10 left-1/4 w-48 h-48 bg-primary/10 rounded-full blur-2xl animate-pulse delay-2000"></div>
-          </>
-        )}
-      </div>
+    <section id="top" className="relative pt-14">
+      <div className="backdrop-grid absolute inset-0" aria-hidden />
 
-      <div className="container mx-auto px-6 py-20 relative z-10">
-        <div className="text-center max-w-4xl mx-auto">
-          {/* Role Badge */}
-          <div className={`inline-flex items-center border rounded-full px-6 py-2 mb-8 animate-fade-in ${
-            role === 'ai-engineer' 
-              ? 'bg-primary/15 border-primary/30 shadow-ai-glow' 
-              : 'bg-primary/10 border-primary/20'
-          }`}>
-            <span className="text-primary font-medium">{currentRole.title}</span>
+      {/* Re-keyed so the entrance and the stage replay when the lens changes */}
+      <div key={role} className="wrap relative py-12 md:py-14">
+        <p className="animate-rise font-mono text-sm text-muted-foreground">
+          <span className="mr-2 inline-block size-1.5 -translate-y-0.5 rounded-full bg-primary" />
+          {roleLabels[role]}
+        </p>
+
+        <h1 className="animate-rise mt-6 max-w-[20ch] font-display text-5xl leading-[0.98] tracking-[-0.02em] [animation-delay:60ms] sm:text-7xl lg:text-[5.25rem]">
+          {headline}
+        </h1>
+
+        <div className="mt-10 grid items-start gap-12 md:mt-12 lg:grid-cols-12 lg:gap-10">
+          <div className="animate-rise [animation-delay:120ms] lg:col-span-5">
+            <p className="max-w-[34rem] text-lg leading-relaxed text-muted-foreground">{description}</p>
+
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <Button size="lg" className="h-12 px-6 text-base" asChild>
+                <a href="#work">
+                  See the work
+                  <ArrowDown strokeWidth={1.5} />
+                </a>
+              </Button>
+              <Button size="lg" variant="outline" className="h-12 px-6 text-base" asChild>
+                <a href="/Mohak_Resume_Latest.pdf" download="Mohak_Shah_Resume.pdf">
+                  Download resume
+                  <Download strokeWidth={1.5} />
+                </a>
+              </Button>
+            </div>
+
+            <div className="mt-8 flex gap-6 text-sm">
+              <a href={`mailto:${contact.email}`} className="link">
+                Email
+              </a>
+              <a href={contact.github} target="_blank" rel="noopener noreferrer" className="link">
+                GitHub
+                <ArrowUpRight className="size-3.5 text-faint" strokeWidth={1.5} />
+              </a>
+              <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="link">
+                LinkedIn
+                <ArrowUpRight className="size-3.5 text-faint" strokeWidth={1.5} />
+              </a>
+            </div>
           </div>
 
-          {/* Main Heading */}
-          <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 animate-fade-in">
-            <span className="block">Hi, I'm</span>
-            <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Mohak Shah
-            </span>
-          </h1>
-
-          {/* Subtitle */}
-          <h2 className="text-2xl md:text-3xl text-muted-foreground mb-8 animate-fade-in">
-            {currentRole.subtitle}
-          </h2>
-
-          {/* Description */}
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed animate-fade-in">
-            {currentRole.description}
-          </p>
-
-          {/* Skills Tags */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12 animate-fade-in">
-            {currentRole.skills.map((skill, index) => (
-              <span
-                key={skill}
-                className={`border rounded-full px-4 py-2 text-sm text-foreground backdrop-blur-sm transition-all duration-300 ${
-                  role === 'ai-engineer'
-                    ? 'bg-muted/30 border-border hover:bg-primary/15 hover:border-primary/40 hover:shadow-ai-glow hover:text-primary'
-                    : 'bg-muted/50 border-border hover:bg-primary/10 hover:border-primary/30'
-                }`}
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-fade-in">
-            <Button variant="hero" size="lg" className="group" asChild>
-              <a href="/resume.pdf" download="Mohak_Shah_Resume.pdf">
-                <Download className="mr-2 h-5 w-5 group-hover:animate-bounce" />
-                Download Resume
-              </a>
-            </Button>
-            <Button variant="outline" size="lg" className="group">
-              <Mail className="mr-2 h-5 w-5 group-hover:animate-bounce" />
-              Get In Touch
-            </Button>
-          </div>
-
-          {/* Social Links */}
-          <div className="flex justify-center space-x-6 mb-12 animate-fade-in">
-            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all" asChild>
-              <a href="https://github.com/Mohak-HoWaN" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                <Github className="h-6 w-6" />
-              </a>
-            </Button>
-            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all" asChild>
-              <a href="https://www.linkedin.com/in/mohak-shah-55a892286" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                <Linkedin className="h-6 w-6" />
-              </a>
-            </Button>
-            <Button variant="ghost" size="icon" className="hover:text-primary hover:scale-110 transition-all" asChild>
-              <a href="https://x.com/MohakShah8972" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                <Twitter className="h-6 w-6" />
-              </a>
-            </Button>
-          </div>
-
-          {/* Scroll Indicator */}
-          <div className="animate-bounce">
-            <ArrowDown className="h-6 w-6 text-muted-foreground mx-auto" />
+          <div className="animate-rise [animation-delay:180ms] lg:col-span-7">
+            <Suspense fallback={<div className="stage aspect-[16/10] rounded-lg border bg-card" />}>
+              <Stage />
+            </Suspense>
           </div>
         </div>
       </div>

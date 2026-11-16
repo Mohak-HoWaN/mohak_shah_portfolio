@@ -38,7 +38,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send email notification to site owner
     const ownerEmailResponse = await resend.emails.send({
       from: "Contact Form <onboarding@resend.dev>",
-      to: ["your-email@example.com"], // Replace with your actual email
+      to: ["mohak.shah21@outlook.com"],
       subject: `New Contact Form Submission from ${name}`,
       html: `
         <h2>New Contact Form Submission</h2>
@@ -86,12 +86,12 @@ const handler = async (req: Request): Promise<Response> => {
         },
       }
     );
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error in send-contact-email function:", error);
     return new Response(
       JSON.stringify({ 
         success: false, 
-        error: error.message || "Failed to send email" 
+        error: (error instanceof Error && error.message) || "Failed to send email" 
       }),
       {
         status: 500,
