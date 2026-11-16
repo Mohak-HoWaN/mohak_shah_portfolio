@@ -5,7 +5,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { ArrowUpRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import { contact } from "@/lib/role";
 
 const details = [
@@ -43,17 +42,17 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke('send-contact-email', {
-        body: {
+      // Handled by worker/index.ts on the Cloudflare deploy
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           name: formData.name,
           email: formData.email,
           message: `Subject: ${formData.subject}\n\n${formData.message}`,
-        }
+        }),
       });
-
-      if (error) {
-        throw error;
-      }
+      const data = await response.json().catch(() => null);
 
       if (data?.success) {
         toast({
