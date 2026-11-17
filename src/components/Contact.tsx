@@ -19,7 +19,10 @@ const socialLinks = [
   { label: "X", href: contact.x },
 ];
 
+const topics = ["Hiring", "Collaboration", "Something else"];
+
 const Contact = () => {
+  const [topic, setTopic] = useState(topics[0]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -49,7 +52,7 @@ const Contact = () => {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          message: `Subject: ${formData.subject}\n\n${formData.message}`,
+          message: `Topic: ${topic}\nSubject: ${formData.subject}\n\n${formData.message}`,
         }),
       });
       const data = await response.json().catch(() => null);
@@ -81,7 +84,7 @@ const Contact = () => {
         <div className="lg:col-span-5">
           <h2 className="font-display text-4xl tracking-tight md:text-6xl">Contact</h2>
           <p className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
-            Have a vision problem, a dataset or a role in mind? Write to me and I'll reply by email.
+            Hiring for an internship or a full-time role, or want to work on something together? Write to me and I'll reply by email.
           </p>
 
           <dl className="mt-10 border-t">
@@ -112,6 +115,28 @@ const Contact = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5 rounded-lg border bg-card p-6 md:p-8 lg:col-span-7">
+          <fieldset>
+            <legend className="text-sm font-medium leading-none">What is this about?</legend>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {topics.map((option) => (
+                <label
+                  key={option}
+                  className="cursor-pointer rounded-md border bg-background px-4 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground has-[:checked]:border-primary has-[:checked]:text-foreground has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring"
+                >
+                  <input
+                    type="radio"
+                    name="topic"
+                    value={option}
+                    checked={topic === option}
+                    onChange={() => setTopic(option)}
+                    className="sr-only"
+                  />
+                  {option}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
           <div className="grid gap-5 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="name">Name</Label>

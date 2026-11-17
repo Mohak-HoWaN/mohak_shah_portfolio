@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { ArrowDown, ArrowUpRight, Download } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { type Role, roleLabels, contact } from "@/lib/role";
 
@@ -64,7 +64,11 @@ const Hero = ({ role }: HeroProps) => {
               </Button>
             </div>
 
-            <div className="mt-8 flex gap-6 text-sm">
+            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+              <a href="#contact" className="link text-foreground">
+                Get in touch
+                <ArrowRight className="size-3.5" strokeWidth={1.5} />
+              </a>
               <a href={`mailto:${contact.email}`} className="link">
                 Email
               </a>
@@ -77,6 +81,10 @@ const Hero = ({ role }: HeroProps) => {
                 <ArrowUpRight className="size-3.5 text-faint" strokeWidth={1.5} />
               </a>
             </div>
+
+            <p className="mt-6 text-sm text-faint">
+              Open to internships, full-time roles and collaborations. Available now, remote or on-site.
+            </p>
           </div>
 
           <div className="animate-rise [animation-delay:180ms] lg:col-span-7">

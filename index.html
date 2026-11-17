@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mohak Shah, Computer Vision Engineer and Data Scientist</title>
+    <title>Mohak Shah, Computer Vision Engineer for CPU-Only Edge Devices</title>
     <meta name="description" content="Mohak Shah builds computer vision systems for small, CPU-only hardware and ships machine learning models as working apps and APIs." />
     <meta name="author" content="Mohak Shah" />
     <meta name="theme-color" content="#0f0f0e" />
+    <link rel="canonical" href="https://mohak-shah.shahonthefloor.workers.dev/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
@@ -14,7 +15,7 @@
     <meta property="og:description" content="Computer vision systems for small, CPU-only hardware, and machine learning models shipped as working apps and APIs." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mohak-shah.shahonthefloor.workers.dev/" />
-    <!-- Share previews need an absolute URL: prefix these with the site's domain once it is deployed -->
+    <!-- Absolute URLs: move these, the canonical, the JSON-LD and public/sitemap.xml together if the domain changes -->
     <meta property="og:image" content="https://mohak-shah.shahonthefloor.workers.dev/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -25,6 +26,62 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono&family=Instrument+Serif&display=swap" rel="stylesheet" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://mohak-shah.shahonthefloor.workers.dev/#person",
+            "name": "Mohak Shah",
+            "url": "https://mohak-shah.shahonthefloor.workers.dev/",
+            "image": "https://mohak-shah.shahonthefloor.workers.dev/og.png",
+            "jobTitle": "Computer Vision Engineer",
+            "description": "Builds computer vision systems for small, CPU-only hardware and ships machine learning models as working apps and APIs.",
+            "email": "mailto:mohak.shah21@outlook.com",
+            "address": { "@type": "PostalAddress", "addressLocality": "Mehsana", "addressRegion": "Gujarat", "addressCountry": "IN" },
+            "alumniOf": { "@type": "CollegeOrUniversity", "name": "Sankalchand Patel University" },
+            "knowsAbout": ["Computer vision", "Edge AI", "YOLO", "ByteTrack", "ONNX Runtime", "OpenVINO", "NCNN", "TensorRT", "Machine learning", "Data science"],
+            "sameAs": [
+              "https://github.com/Mohak-HoWaN",
+              "https://www.linkedin.com/in/mohak-shah-55a892286",
+              "https://x.com/MohakShah8972"
+            ]
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "JonaRu",
+            "applicationCategory": "BusinessApplication",
+            "description": "Camera-based checkout for neighbourhood stores: a YOLO detector and ByteTrack-style tracker bill the packaged products in a scan zone, running on a Raspberry Pi 5.",
+            "url": "https://aiot.shahonthefloor.workers.dev/",
+            "creator": { "@id": "https://mohak-shah.shahonthefloor.workers.dev/#person" }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "EdgeBench",
+            "applicationCategory": "DeveloperApplication",
+            "description": "Converts a PyTorch detector to ONNX, OpenVINO and NCNN at different precisions and benchmarks latency against accuracy drift on each device.",
+            "url": "https://github.com/Mohak-HoWaN/edgebench",
+            "creator": { "@id": "https://mohak-shah.shahonthefloor.workers.dev/#person" }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "Promptify",
+            "applicationCategory": "DeveloperApplication",
+            "description": "Scores a prompt, restructures it, recommends a model and estimates the cost before it is sent; ships as a web dashboard, a browser extension and an MCP server.",
+            "creator": { "@id": "https://mohak-shah.shahonthefloor.workers.dev/#person" }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "Health Care Center",
+            "applicationCategory": "HealthApplication",
+            "description": "Symptom checker that predicts a likely condition with an SVM classifier and returns medication, diet, workout and precaution guidance.",
+            "url": "https://health-care-center-k3gk.onrender.com/",
+            "creator": { "@id": "https://mohak-shah.shahonthefloor.workers.dev/#person" }
+          }
+        ]
+      }
+    </script>
   </head>
 
   <body>

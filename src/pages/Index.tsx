@@ -20,7 +20,7 @@ const Index = () => {
   useEffect(() => {
     // The lens accent is keyed off this attribute in index.css
     document.documentElement.setAttribute("data-role", role);
-    document.title = `Mohak Shah, ${roleLabels[role]}`;
+    document.title = `Mohak Shah, ${roleLabels[role]}${role === "cv-engineer" ? " for CPU-Only Edge Devices" : ""}`;
     const search = role === "data-scientist" ? "?lens=data-science" : "";
     window.history.replaceState(null, "", window.location.pathname + search + window.location.hash);
   }, [role]);

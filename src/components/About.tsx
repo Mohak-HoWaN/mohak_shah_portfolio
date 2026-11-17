@@ -10,16 +10,32 @@ const roleData = {
       "Most of my work sits between a trained detector and the device it has to run on. For JonaRu that means collecting and labelling product images, training YOLO models, exporting them to ONNX, OpenVINO and NCNN, and checking each export against the original weights.",
       "At Agrex.ai I trained YOLO and RF-DETR models for safety monitoring, built a throwing-detection pipeline with RF-DETR and ByteTrack that reached up to 85% recall, and benchmarked it on TensorRT and Triton across GStreamer CCTV pipelines.",
     ],
+    offer: [
+      "Take a detector from labelled data to the device: train YOLO or RF-DETR, export to ONNX, OpenVINO and NCNN, and check each export against the original weights",
+      "Benchmark exports and precisions for latency against accuracy on CPU and edge hardware",
+      "Build detection, tracking and counting pipelines on camera and CCTV streams",
+      "Ship models as APIs and apps with FastAPI, Flask and Docker",
+    ],
   },
   "data-scientist": {
     paragraphs: [
       "I like data work that ends in something a person can use. Health Care Center started as a notebook comparing classifiers on symptom data and became a Flask app with voice input and an offline build.",
       "Alongside modelling I have done analytics training and internships in SQL, Python and Power BI, including a live project on social media user data.",
     ],
+    offer: [
+      "Take a problem from raw data to a deployed service, such as a Flask app or a REST API",
+      "Compare and tune classical models with scikit-learn and pandas",
+      "Answer business questions with SQL, Python and Power BI",
+    ],
   },
 };
 
 const facts = [
+  {
+    label: "Open to",
+    lines: ["Internships, full-time roles and collaborations"],
+    detail: "Available now, remote or on-site",
+  },
   {
     label: "Education",
     lines: ["B.Tech, Artificial Intelligence and Data Science"],
@@ -59,6 +75,13 @@ const About = ({ role }: AboutProps) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
         </div>
+
+        <h3 className="mt-12 text-sm text-faint">What I can do for teams</h3>
+        <ul className="mt-4 space-y-3 border-l pl-5">
+          {roleData[role].offer.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
       </div>
 
       <div className="lg:col-span-7">
