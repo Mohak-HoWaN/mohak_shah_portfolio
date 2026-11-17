@@ -1,8 +1,9 @@
-import { type CSSProperties, Fragment, type ReactNode } from "react";
+import { type CSSProperties, type ReactNode } from "react";
 import { ArrowUpRight } from "lucide-react";
 import HeatReveal from "@/components/HeatReveal";
 import LatencyChart from "@/components/LatencyChart";
 import ScanZoneReplay from "@/components/ScanZoneReplay";
+import ByteBoxerReplay from "@/components/ByteBoxerReplay";
 import PromptifyReplay from "@/components/PromptifyReplay";
 import Trainity from "@/components/Trainity";
 import { useScrollProgress } from "@/hooks/use-scroll-progress";
@@ -15,7 +16,6 @@ interface ProjectsProps {
 interface Project {
   title: string;
   field: "Computer vision" | "Data science" | "AI engineering";
-  role: Role;
   status: string;
   description: string;
   context: string;
@@ -32,7 +32,6 @@ const projects: Project[] = [
   {
     title: "JonaRu",
     field: "Computer vision",
-    role: "cv-engineer",
     status: "SSIP-funded, 2025 to present",
     description:
       "Camera-based checkout for neighbourhood stores. A YOLO detector recognises packaged products, a ByteTrack-style tracker follows them, and the bill is the stable count of each product inside the scan zone, so an item is added when it settles in the zone and removed when it leaves. I lead the team and own the vision pipeline; moving it from a custom CNN to YOLO raised recognition precision from 78% to 94%.",
@@ -48,20 +47,31 @@ const projects: Project[] = [
   {
     title: "EdgeBench",
     field: "Computer vision",
-    role: "cv-engineer",
-    status: "Open source",
+    status: "In-house tool for JonaRu",
     description:
       "A bench for edge deployment decisions. Upload a PyTorch detector, convert it to ONNX, OpenVINO and NCNN at different precisions, benchmark every variant on each device, and read latency against accuracy drift through one shared decode path.",
-    context: "Grew out of JonaRu's deployment work: one place to compare every export before it ships to a device.",
+    context: "Built inside JonaRu as the one place to compare every export before it ships to a device.",
     stack: ["FastAPI", "SQLModel", "SQLite", "React", "TypeScript", "ONNX Runtime", "OpenVINO", "NCNN"],
-    links: [{ label: "GitHub", href: "https://github.com/Mohak-HoWaN/edgebench" }],
+    links: [],
     pipeline: ["Upload .pt", "Convert", "Benchmark", "Compare"],
     visual: <LatencyChart />,
   },
   {
+    title: "ByteBOXer",
+    field: "Computer vision",
+    status: "In-house tool, Agrex.ai",
+    description:
+      "A browser-based annotation tool for building training sets. Draw a rectangle, polygon or brush stroke for a class, or click once and MobileSAM proposes the mask, and the same shapes are written out in parallel as segmentation masks, YOLO-seg polygons and YOLO boxes. A detect-and-classify mode turns one labelling pass into both a detection dataset and a per-class classifier dataset, and a redact mode blanks everything outside the boxes.",
+    context:
+      "Built during my computer vision internship for the Agrex.ai team's own labelling. Shapes are kept in original image pixels, so mixed resolutions line up, and a static camera's mask can be carried forward across frames.",
+    stack: ["Python", "Flask", "OpenCV", "NumPy", "Pillow", "Ultralytics", "MobileSAM", "JavaScript", "Canvas"],
+    links: [],
+    pipeline: ["Images", "Draw or click", "Shapes", "Masks + boxes", "Datasets"],
+    visual: <ByteBoxerReplay />,
+  },
+  {
     title: "Promptify",
     field: "AI engineering",
-    role: "cv-engineer",
     status: "AWS AI for Bharat",
     description:
       "A layer between you and the LLM. It scores a prompt, restructures it, recommends a model and estimates the cost before anything is sent. It ships as a web dashboard, a browser extension for ChatGPT, Claude and Gemini, and an MCP server for IDEs.",
@@ -74,7 +84,6 @@ const projects: Project[] = [
   {
     title: "Health Care Center",
     field: "Data science",
-    role: "data-scientist",
     status: "Live",
     description:
       "Symptom checker that predicts a likely condition with an SVM classifier, then returns medication, diet, workout and precaution guidance. Symptoms can be typed or spoken, and an offline build covers low-connectivity use.",
@@ -93,7 +102,6 @@ const projects: Project[] = [
   {
     title: "Smart Waste Minimizer",
     field: "Computer vision",
-    role: "cv-engineer",
     status: "HackNUthon 6.0",
     description:
       "Restaurant inventory tool that flags food before it spoils. YOLOv5 finds items in a photo, a dual-head MobileNetV2 classifies item type and freshness in one pass, and Grad-CAM heatmaps show which regions drove the call. A Next.js dashboard tracks inventory, orders and waste.",
@@ -106,7 +114,6 @@ const projects: Project[] = [
   {
     title: "Fitness Recommendation API",
     field: "Data science",
-    role: "data-scientist",
     status: "Deployed API",
     description:
       "REST API that suggests a workout type and predicts daily calorie and water intake from BMI, step count and activity level. Nearest-neighbour matching for workouts, random forests for the two predictions.",
@@ -199,53 +206,57 @@ const FeaturedProject = ({ project }: { project: Project }) => {
   );
 };
 
+// What each lens shows, in order. "Trainity" is the folder of analytics case studies.
+const lenses: Record<Role, { intro: string; order: string[] }> = {
+  "cv-engineer": {
+    intro: "Six projects across computer vision, AI engineering and data science.",
+    order: ["JonaRu", "EdgeBench", "ByteBOXer", "Smart Waste Minimizer", "Promptify", "Fitness Recommendation API"],
+  },
+  "data-scientist": {
+    intro: "Four projects and a folder of analytics case studies.",
+    order: ["Health Care Center", "Trainity", "JonaRu", "Fitness Recommendation API", "Promptify"],
+  },
+};
+
+const CompactProject = ({ project }: { project: Project }) => (
+  <article className="grid gap-4 border-y py-8 lg:grid-cols-12 lg:gap-10">
+    <div className="lg:col-span-4">
+      <h3 className="font-display text-2xl tracking-tight">{project.title}</h3>
+      <p className="mt-2 font-mono text-sm text-faint">
+        {project.field} · {project.status}
+      </p>
+    </div>
+    <div className="lg:col-span-8">
+      <p className="leading-relaxed text-muted-foreground">
+        {project.description} {project.context}
+      </p>
+      <p className="mt-4 font-mono text-[13px] leading-relaxed text-muted-foreground">{project.stack.join(" · ")}</p>
+      <div className="mt-4">
+        <ProjectLinks project={project} />
+      </div>
+    </div>
+  </article>
+);
+
 const Projects = ({ role }: ProjectsProps) => {
-  // The chosen lens leads; sort is stable so the order within each group holds
-  const ordered = [...projects].sort((a, b) => Number(b.role === role) - Number(a.role === role));
-  const featured = ordered.filter((project) => project.image || project.visual);
-  const compact = ordered.filter((project) => !project.image && !project.visual);
+  const { intro, order } = lenses[role];
 
   return (
     <section id="work" className="border-t py-20 md:py-28">
       <div className="wrap">
         <h2 className="font-display text-4xl tracking-tight md:text-6xl">Selected work</h2>
-        <p className="mt-4 max-w-xl text-muted-foreground">
-          Six projects across computer vision, AI engineering and data science
-          {role === "data-scientist" && ", and a folder of analytics case studies"}. The lens you pick sets the order.
-        </p>
+        <p className="mt-4 max-w-xl text-muted-foreground">{intro} Switch the lens to see the other side of the work.</p>
 
         <div className="mt-14 space-y-16 md:mt-16 md:space-y-24">
-          {featured.map((project) => (
-            <Fragment key={project.title}>
-              <FeaturedProject project={project} />
-              {/* The analytics case studies sit under the other data science work, on that lens only */}
-              {role === "data-scientist" && project.title === "Health Care Center" && <Trainity />}
-            </Fragment>
-          ))}
-        </div>
-
-        <div className="mt-16 border-t md:mt-24">
-          {compact.map((project) => (
-            <article key={project.title} className="grid gap-4 border-b py-8 lg:grid-cols-12 lg:gap-10">
-              <div className="lg:col-span-4">
-                <h3 className="font-display text-2xl tracking-tight">{project.title}</h3>
-                <p className="mt-2 font-mono text-sm text-faint">
-                  {project.field} · {project.status}
-                </p>
-              </div>
-              <div className="lg:col-span-8">
-                <p className="leading-relaxed text-muted-foreground">
-                  {project.description} {project.context}
-                </p>
-                <p className="mt-4 font-mono text-[13px] leading-relaxed text-muted-foreground">
-                  {project.stack.join(" · ")}
-                </p>
-                <div className="mt-4">
-                  <ProjectLinks project={project} />
-                </div>
-              </div>
-            </article>
-          ))}
+          {order.map((title) => {
+            if (title === "Trainity") return <Trainity key={title} />;
+            const project = projects.find((candidate) => candidate.title === title)!;
+            return project.image || project.visual ? (
+              <FeaturedProject key={title} project={project} />
+            ) : (
+              <CompactProject key={title} project={project} />
+            );
+          })}
         </div>
       </div>
     </section>
